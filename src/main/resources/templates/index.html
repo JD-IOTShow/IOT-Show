@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="zh">
+
+<head>
+    <meta charset="UTF-8"/>
+    <title>IOT SHOW</title>
+    <!-- <meta name="viewport" content="width=device-width, initial-scale=1" /> -->
+    <meta name="viewport" content="width=1024, initial-scale=0.84 user-scalable=yes" />
+    <link rel="stylesheet" href="css/style.css"/>
+    <!-- <link href="css/fliptimer.css" rel="stylesheet" type="text/css" /> -->
+</head>
+
+<body>
+    <div class="grad-body">
+        <div class="grad-inner"></div>
+        <div class="header">
+            <img src="images/headleft.png" alt="" class="title-img"/>
+            <img src="images/title.png" alt="" class="title"/>
+            <img src="images/headright.png" alt="" class="title-img"/>
+        </div>
+        <div class="content">
+            <div class="left">
+                <div class="flip-card">
+                    <p>累计数据总量</p>
+                    <div class="flip-card-box">
+                        <div class="dowebok">
+                            <div class="item hours"></div>
+                            <div class="item minutes"></div>
+                            <div class="item seconds"></div>
+                            <div class="text">条</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="flip-card">
+                    <p>累计能力调用总量</p>
+                    <div class="flip-card-box">
+                        <div class="dowebok2">
+                            <div class="item hours"></div>
+                            <div class="item minutes"></div>
+                            <div class="item seconds"></div>
+                            <div class="text">次</div>
+                        </div>
+                    </div>
+                </div>
+                <ul class="data-list">
+                    <li>产品总数 : <span class="num">20</span>套</li>
+                    <li>设备总数 : <span class="num">20</span>个</li>
+                    <li>应用总数 : <span class="num">20</span>个</li>
+                    <li>能力总数 : <span class="num">20</span>个</li>
+                </ul>
+                <div class="pie-echart-module">
+                    <div class="pie-wraper">
+                        <div id="online-rate"></div>
+                        <span>设备在线率</span>
+                    </div>
+                    <div class="pie-wraper">
+                        <div id="succeed-rate"></div>
+                        <span>今日能力调用成功率</span>
+                    </div>
+                </div>
+            </div>
+            <div class="middle">
+                <div class="tab-modual">
+                    <div class="tab-header">
+                        <a href="javascript:;" class="rmodynamic active">设备热力图</a>
+                        <a href="javascript:;" class="transmission">数据传输图</a>
+                    </div>
+                    <div class="tab-content">
+                        <div class="tab-pane active" id="mapRmodynamic">
+                        </div>
+                        <div class="tab-pane" id="sonMap"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="right">
+                <div id="clock" class="dark">
+                    <div class="digits"></div>
+                </div>
+                <div class="echart-wrap">
+                    <p class="title">今日应用活跃度排行</p>
+                    <div class="right-echart" id="activity-rate"></div>
+                </div>
+                <div class="echart-wrap">
+                    <p class="title">能力调用量每日趋势</p>
+                    <div class="right-echart" id="call-rate-trend"></div>
+                </div>
+                <div class="echart-wrap">
+                    <p class="title">设备数据量每日趋势</p>
+                    <div class="right-echart" id="data-rate-trend"></div>
+                </div>
+            </div>
+        </div>
+        <div class="footer">杰能投资·邦讯信息·杰电网络 联合出品</div>
+    </div>
+    <script src="js/jquery.min.js"></script>
+    <script src="js/moment.min.js"></script>
+    <script src="js/script.js"></script>
+    <script src="js/jquery.fliptimer.js"></script>
+    <script src="js/echartsm.js"></script>
+    <script src="js/china.js"></script>
+    <script src="js/all-province.js"></script>
+    <script src="js/change-map.js"></script>
+    <!-- <script src="js/echarts.js"></script> -->
+    <script src="js/echarts-text.js"></script>
+    <script src="js/socket.io.js"></script>
+    <script>
+    $(function() {
+
+        //传输的假数据
+        var arr1 = ['133/945/989','133/946/566','133/956/358','133/967/231','133/978/261','133/990/000','133/999/231','134/001/123'];
+        var arr2 = ['000/000/998','000/001/238','000/001/405','000/001/558','000/001/702','000/001/833','000/001/966','000/002/198'];
+
+        $('.dowebok').flipTimer({
+            direction: 'up',
+            date: arr1
+        });
+        $('.dowebok2').flipTimer({
+            direction: 'up',
+            date: arr2
+        });
+
+        var clientid = 'testclient1';
+        var targetClientId= 'testclient2';
+
+        var socket =  io.connect('http://localhost:8001?clientid='+clientid);
+        socket.on('connect', function() {
+            console.error("Client has connected to the server!")
+        });
+
+        socket.on('messageevent', function(data) {
+            console.error("data.sourceClientId"+data)
+            console.error("data.msgContent"+data.msgContent)
+        });
+
+        socket.on('disconnect', function() {
+            console.error("The client has disconnected!");
+        });
+
+        function sendDisconnect() {
+            socket.disconnect();
+        }
+
+        function sendMessage() {
+            var message = "i am message!!!!";
+
+            var jsonObject = {sourceClientId: clientid,
+                targetClientId: targetClientId,
+                msgType: 'chat',
+                msgContent: message};
+            socket.emit('messageevent', jsonObject);
+        }
+    });
+    </script>
+</body>
+
+</html>

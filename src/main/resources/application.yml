@@ -1,0 +1,31 @@
+spring:
+  thymeleaf:
+    mode: HTML5
+  #�ַ�����json��ʽ����
+  http:
+    encoding:
+      charset: utf-8
+    converters:
+      preferred-json-mapper: jackson
+    multipart:
+      max-file-size: 10MB
+  application:
+    name: iot-show
+  redis:
+    database: 0
+    host: 127.0.0.1
+    port: 6379
+    password: alpzxy123!
+    pool:
+      max-active: 50
+      max-wait: -1
+      max-idle: 5
+      min-idle: 0
+    timeout: 0
+server:
+  session-timeout : 3600
+  port: 8000
+wss:
+  server:
+    host: 127.0.0.1
+    port: 8001

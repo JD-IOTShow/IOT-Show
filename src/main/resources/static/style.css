@@ -1,0 +1,231 @@
+@media screen and (max-width: 3840px) {
+    html {
+        font-size: 40px;
+    }
+}
+
+@media screen and (max-width: 1920px) {
+    html {
+        font-size: 24px;
+    }
+}
+
+@media screen and (max-width: 1366px) {
+    html {
+        font-size: 18px;
+    }
+}
+
+@media screen and (max-width: 1200px) {
+    html {
+        font-size: 16px;
+    }
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    color: rgba(255, 255, 255, .6);
+    background: -o-radial-gradient(#071f35 55%, #01050b);
+    background: -moz-radial-gradient(#071f35 55%, #01050b);
+    background: radial-gradient(#071f35 55%, #01050b);
+    background: -webkit-radial-gradient(#071f35 55%, #01050b);
+    /*background-color: #01050b;*/
+    font-weight: thin;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "PingFang SC", "Microsoft YaHei", "Hiragino Sans GB", "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+ul,
+li {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+p {
+    margin: 0;
+}
+
+img {
+    vertical-align: middle;
+}
+
+.grad-body {
+    position: relative;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    height: 100%;
+    width: 100%;
+}
+
+.grad-inner {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    /*background-image: url(images/bg.png);
+    -webkit-background-size: 30px 30px;
+    background-size: 30px 30px;*/
+    background-image: url(images/bg.jpg);
+    background-size: 100% auto;
+    background-repeat: no-repeat;
+    opacity: .7;
+}
+
+.header {
+    text-align: center;
+    padding-top: 2rem;
+}
+
+.header .title {
+    width: 30%;
+}
+
+.header .title-img {
+    width: 13%;
+}
+
+.content {
+    position: relative;
+    z-index: 10;
+    display: flex;
+    width: 92%;
+    margin: 0 auto;
+}
+
+.left {
+    width: 22%;
+    padding-top: .8rem;
+}
+
+.middle {
+    width: 50%;
+}
+
+.right {
+    width: 28%;
+    padding-top: .8rem;
+}
+
+.right .title {
+    font-size: 1rem;
+    color: #a7aaae;
+    border-left: .2rem solid #68d9cc;
+    padding-left: .5rem;
+    margin-left: .5rem;
+    line-height: 1;
+}
+
+.right .right-echart {
+    height: 12rem;
+    width: 100%;
+}
+
+.flip-card-box {
+    width: 100%;
+    height: 2.6rem;
+    background-image: url(images/border.png);
+    -webkit-background-size: 100%;
+    background-size: 100%;
+    background-repeat: no-repeat;
+    margin-top: .5rem;
+    margin-bottom: 1rem;
+}
+
+.flip-card {
+    margin-bottom: .5rem;
+}
+
+.data-list {
+    line-height: 2;
+    margin-top: -.3rem;
+}
+
+.data-list .num {
+    color: #52feff;
+    margin: 0 .3rem;
+}
+
+.pie-echart-module {
+    margin-left: 1rem;
+    margin-top: 1rem;
+}
+
+.pie-wraper {
+    width: 7rem;
+    text-align: center;
+    font-size: .9rem;
+}
+
+#online-rate,
+#succeed-rate {
+    width: 7rem;
+    height: 7rem;
+}
+
+.pie-wraper canvas {
+    width: 100%;
+}
+
+.pie-wraper>span {
+    font-size: .8rem;
+    display: inline-block;
+    margin: .2rem 0 .8rem;
+    white-space: nowrap;
+}
+
+.tab-modual {
+    text-align: center;
+    height: 100%;
+}
+
+.tab-content {
+    width: 100%;
+    height: 85%;
+}
+
+.tab-pane {
+    display: none;
+    width: 100%;
+    height: 100%;
+}
+
+.tab-pane.active {
+    display: block;
+}
+
+.tab-header {
+    border: 1px solid #2f838b;
+    display: inline-block;
+    border-radius: .2rem;
+    margin: 2.5rem auto 0;
+}
+
+.tab-header a:first-child {
+    border-right: 1px solid #2f838b;
+}
+
+.tab-header a {
+    display: inline-block;
+    font-weight: normal;
+    text-decoration: none;
+    color: #52feff;
+    font-size: .9rem;
+    padding: .4rem 1.5rem .6rem;
+    opacity: .3;
+}
+
+.tab-header a.active {
+    opacity: 1;
+    box-shadow: 0 0 .2rem #2f838b inset;
+}
+
+.map {
+    width: 100%;
+    height: 100%;
+}
