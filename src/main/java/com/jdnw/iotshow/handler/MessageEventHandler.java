@@ -6,17 +6,18 @@ import com.corundumstudio.socketio.SocketIOServer;
 import com.corundumstudio.socketio.annotation.OnConnect;
 import com.corundumstudio.socketio.annotation.OnDisconnect;
 import com.corundumstudio.socketio.annotation.OnEvent;
+import com.jdnw.iotshow.redis.RedisUtils;
 import com.jdnw.iotshow.vo.MessageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
 
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
-import java.util.concurrent.TimeUnit;
+import java.util.List;
 
 
 /**
@@ -30,7 +31,7 @@ import java.util.concurrent.TimeUnit;
 public class MessageEventHandler {
     private final SocketIOServer server;
     @Autowired
-    private StringRedisTemplate stringRedisTemplate;
+    private RedisUtils redisUtils;
 
 
     @Autowired
@@ -44,10 +45,10 @@ public class MessageEventHandler {
     public void onConnect(SocketIOClient client)
     {
         System.out.println("新链接"+client);
-        //client.sendEvent("messageevent",redisUtils.get(client.getSessionId().toString()));
 
-        stringRedisTemplate.opsForValue().set("test", "100",60*10, TimeUnit.SECONDS);//向redis里存入数据和设置缓存时间
-        System.out.println("aaaaaaaaaaaa"+stringRedisTemplate.opsForValue().get("test"));//根据key获取缓存中的val
+
+        /*redisUtils.set("server","server");
+        System.out.println(redisUtils.get("server"));*/
     }
 
     //添加@OnDisconnect事件，客户端断开连接时调用，刷新客户端信息
