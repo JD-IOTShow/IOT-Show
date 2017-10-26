@@ -3,6 +3,7 @@ package com.jdnw.iotshow.util;
 import com.alibaba.fastjson.JSONObject;
 import org.jdom2.Element;
 import org.jdom2.JDOMException;
+import org.jdom2.Namespace;
 import org.jdom2.input.SAXBuilder;
 
 import java.io.ByteArrayInputStream;
@@ -17,7 +18,7 @@ public class XmlUtil {
         InputStream is = new ByteArrayInputStream(xml);
         SAXBuilder sb = new SAXBuilder();
         org.jdom2.Document doc = sb.build(is);
-        Element root = doc.getRootElement();
+        Element root = doc.getRootElement().getChildren().get(0).getChildren().get(0);
         json.put(root.getName(), iterateElement(root));
         return json;
     }
@@ -51,7 +52,7 @@ public class XmlUtil {
     }
 
     public static void main(String[] args) throws JDOMException, IOException {
-        String xml = "<?xml version=\"1.0\" encoding=\"utf-8\" ?><MoBaoAccount MessageType=\"UserMobilePay\" PlatformID=\"b2ctest\"><OrderNo>M20150521084825</OrderNo><TradeAmt>5000.00</TradeAmt><Commission>0.5</Commission><UserID>zhuxiaolong</UserID><MerchID>zhuxiaolong1</MerchID><tradeType>0</tradeType><CustParam>123</CustParam> <NotifyUrl>http://mobaopay.com/callback.do</NotifyUrl><TradeSummary>订单</TradeSummary></MoBaoAccount>";
+        String xml = "<?xml version='1.0' encoding='UTF-8'?><soapenv:Envelope xmlns:soapenv=\"http://www.w3.org/2003/05/soap-envelope\"><soapenv:Body><Entries xmlns=\"http://ws.wso2.org/dataservice\"><Entry><ABILITY_CALL_CNT>1865971</ABILITY_CALL_CNT></Entry></Entries></soapenv:Body></soapenv:Envelope>\n";
         JSONObject json = xml2JSON(xml.getBytes());
         System.out.println(json.toJSONString());
     }

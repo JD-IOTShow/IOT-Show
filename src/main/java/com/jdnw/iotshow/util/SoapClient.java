@@ -1,5 +1,6 @@
 package com.jdnw.iotshow.util;
 
+import com.alibaba.fastjson.JSONObject;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
@@ -99,6 +100,8 @@ public class SoapClient {
         System.out.println(soapRequestData);
         String result = soapClient.invoke(patameterMap);
         System.out.println(result);
+        JSONObject json = XmlUtil.xml2JSON(result.getBytes());
+        System.out.println(json.toJSONString());
     }
 
 }
