@@ -45,7 +45,7 @@ public class XmlUtil {
                     list = (List) obj.get(et.getName().equalsIgnoreCase("Entry")?"object":et.getName());
                 }
                 list.add(et.getTextTrim());
-                obj.put(et.getName().equalsIgnoreCase("Entry")?"object":et.getName(), list);
+                obj.put(et.getName().equalsIgnoreCase("Entry")?"object":et.getName(), list.get(0));
             }
         }
         return obj;
