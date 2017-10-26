@@ -27,7 +27,7 @@ public class SoapClient {
         this.wsdlLocation = wsdlLocation;
     }
 
-    private String invoke(Map<String, String> patameterMap) throws Exception {
+    public String invoke(Map<String, String> patameterMap) throws Exception {
         HttpPost httpPost= new HttpPost(wsdlLocation);
         String soapRequestData = buildRequestData(patameterMap);
 
@@ -61,7 +61,7 @@ public class SoapClient {
 
     }
 
-    private String buildRequestData(Map<String, String> patameterMap) {
+    public String buildRequestData(Map<String, String> patameterMap) {
         StringBuffer soapRequestData = new StringBuffer();
         soapRequestData.append("<?xml version=\"1.0\" encoding=\"utf-8\"?>\n");
         soapRequestData.append("<soap:Envelope xmlns:soap=\"http://www.w3.org/2003/05/soap-envelope\""
