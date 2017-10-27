@@ -26,10 +26,11 @@ $(document).ready(function(){
                 j--;
             }
             //alert(array.join(""));
+            //arr.shift();
             arr.push(array.join(""));
             //arr.shift();
             // alert(JSON.stringify(turnover1));
             turnover1.data('flipTimer').calculateDate();
         }});
-    },3000);
+    },1000);
 });
