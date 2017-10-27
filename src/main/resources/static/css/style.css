@@ -112,23 +112,23 @@ img {
 }
 
 @-keyframes flipTop {
-    0% {
-        transform: perspective(400px) rotateX(0deg);
-    }
+0% {
+    transform: perspective(400px) rotateX(0deg);
+}
 
-    100% {
-        transform: perspective(400px) rotateX(-90deg);
-    }
+100% {
+    transform: perspective(400px) rotateX(-90deg);
+}
 }
 
 @-keyframes flipBottom {
-    0% {
-        transform: perspective(400px) rotateX(90deg);
-    }
+0% {
+    transform: perspective(400px) rotateX(90deg);
+}
 
-    100% {
-        transform: perspective(400px) rotateX(0deg);
-    }
+100% {
+    transform: perspective(400px) rotateX(0deg);
+}
 }
 
 .flipTimer {
@@ -137,7 +137,8 @@ img {
     font-size: 1.5rem;
     font-weight: thin;
     line-height: 1;
-    height: 78%;
+    height: 2.2rem;
+    margin-top: 0.15rem;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -254,8 +255,13 @@ img {
 
 .flipTimer .digit>div.digit-bottom .digit-wrap,
 .flipTimer .digit>div.shadow-bottom .digit-wrap {
+    position: absolute;
+    bottom: 0;
     display: block;
-    margin-top: -50%;
+    margin-top: -100%;
+    line-height: 1.5;
+    transform: translateX(-50%);
+    left: 50%;
 }
 
 .flipTimer .digit>div.digit-bottom:before,
@@ -300,7 +306,7 @@ img {
 
 .flipTimer .digit.active .digit-top {
     z-index: 1;
-    line-height: 1.35;
+    line-height: 1.4;
 }
 
 .flipTimer .digit.active .digit-bottom {
@@ -396,11 +402,11 @@ img {
 
 .flip-card-box {
     width: 100%;
-    height: 2.6rem;
+    height: 2.5rem;
     padding: .2rem;
     background-image: url(../images/border.png);
-    -webkit-background-size: 100%;
-    background-size: 100%;
+    -webkit-background-size: 100% 100%;
+    background-size: 100% 100%;
     background-repeat: no-repeat;
     margin-top: .5rem;
     margin-bottom: 1rem;
