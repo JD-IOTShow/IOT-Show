@@ -1,5 +1,6 @@
 package com.jdnw.iotshow.util;
 
+import com.alibaba.fastjson.JSONObject;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
@@ -27,7 +28,7 @@ public class SoapClient {
         this.wsdlLocation = wsdlLocation;
     }
 
-    private String invoke(Map<String, String> patameterMap) throws Exception {
+    public String invoke(Map<String, String> patameterMap) throws Exception {
         HttpPost httpPost= new HttpPost(wsdlLocation);
         String soapRequestData = buildRequestData(patameterMap);
 
@@ -61,7 +62,7 @@ public class SoapClient {
 
     }
 
-    private String buildRequestData(Map<String, String> patameterMap) {
+    public String buildRequestData(Map<String, String> patameterMap) {
         StringBuffer soapRequestData = new StringBuffer();
         soapRequestData.append("<?xml version=\"1.0\" encoding=\"utf-8\"?>\n");
         soapRequestData.append("<soap:Envelope xmlns:soap=\"http://www.w3.org/2003/05/soap-envelope\""
@@ -99,6 +100,8 @@ public class SoapClient {
         System.out.println(soapRequestData);
         String result = soapClient.invoke(patameterMap);
         System.out.println(result);
+        JSONObject json = XmlUtil.xml2JSON(result.getBytes());
+        System.out.println(json.toJSONString());
     }
 
 }
