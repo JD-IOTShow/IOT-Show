@@ -565,37 +565,11 @@ function changeTransMap(dataArray) {
                 coords: [dataArray[i][0].coordinate, dataArray[i][1].coordinate]
             });
         }
-        // if (dest) {
-        //     for (var i = 0, len = data.length; i < len; i++) {
-        //         if (srcNam != data[i].name) {
-        //             tGeoDt.push({
-        //                 coords: [geoData[srcNam], geoData[data[i].name]]
-        //             });
-        //         }
-        //     }
-        // } else {
-        //     for (var i = 0, len = data.length; i < len; i++) {
-        //         if (srcNam != data[i].name) {
-        //             tGeoDt.push({
-        //                 coords: [geoData[data[i].name], geoData[srcNam]]
-        //             });
-        //         }
-        //     }
-        // }
         return tGeoDt;
     }
 
     var convertData = function() {
         var res = [];
-        // for (var i = 0; i < data.length; i++) {
-        //     var geoCoord = geoCoordMap[data[i].name];
-        //     if (geoCoord) {
-        //         res.push({
-        //             name: data[i].name,
-        //             value: geoCoord.concat(data[i].value)
-        //         });
-        //     }
-        // }
         var keyValue = {};
         for(var i=0; i<dataArray.length; i++){
             keyValue[dataArray[i][0].cityName] = dataArray[i][0].coordinate.concat(dataArray[i][0].deviceCount);
@@ -629,17 +603,6 @@ function changeTransMap(dataArray) {
                 }
             });
         }
-        // tGeoDt.push({
-        //     name: srcNam,
-        //     value: geoData[srcNam],
-        //     symbolSize: 12,
-        //     itemStyle: {
-        //         normal: {
-        //             color: '#e84161',
-        //             borderColor: '#000'
-        //         }
-        //     }
-        // });
         return tGeoDt;
     }
 
