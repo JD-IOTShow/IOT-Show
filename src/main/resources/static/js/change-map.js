@@ -14,8 +14,8 @@ $(function() {
     });
 
     //地图轮播
+    var timer_array = [];
     var timer = setInterval(function() {
-
         var ind = $('.tab-header .active').index();
         // console.log(ind);
         if (ind == 0) {
@@ -25,9 +25,13 @@ $(function() {
         }
         $('.tab-header .active').removeClass('active').siblings().addClass('active');
     }, 5000);
+    timer_array.push(timer);
     //hover事件完成悬停
     $('.tab-modual').hover(function() {
-        clearInterval(timer);
+        while(timer_array.length>0){
+            clearInterval(timer_array.pop());
+        }
+        //clearInterval(timer);
     }, function() {
         timer = setInterval(function() {
             var ind = $('.tab-header .active').index();
@@ -39,6 +43,7 @@ $(function() {
             }
             $('.tab-header .active').removeClass('active').siblings().addClass('active');
         }, 5000);
+        timer_array.push(timer);
     })
 
 })
@@ -555,8 +560,13 @@ function changeTransMap() {
     //var mapTransChart= echarts.init(document.getElementById('maTransmission'));
 
     var data = [
-        { name: '长春', value: 90 },
-        { name: '长沙', value: 10 }, {
+        {
+            name: '长春',
+            value: 90
+        }, {
+            name: '长沙',
+            value: 10
+        }, {
             name: '贵阳',
             value: 20
         }, {
@@ -624,7 +634,6 @@ function changeTransMap() {
 
     //坐标信息
     var geoCoordMap = {
-        '安徽省铜陵': [117.81154, 30.945515],
         '长春': [125.8154, 44.2584],
         '长沙': [113.0823, 28.2568],
         '贵阳': [106.6992, 26.7682],
@@ -671,6 +680,7 @@ function changeTransMap() {
         }
         return tGeoDt;
     }
+
     var convertData = function(data) {
         var res = [];
         for (var i = 0; i < data.length; i++) {
@@ -687,16 +697,6 @@ function changeTransMap() {
 
     function formtVData(geoData, data, srcNam) {
         var tGeoDt = [];
-        // for (var i = 0, len = data.length; i < len; i++) {
-        //     var tNam = data[i].name
-        //     if (srcNam != tNam) {
-        //         tGeoDt.push({
-        //             name: tNam,
-        //             value: geoData[tNam]
-        //         });
-        //     }
-
-        // }
         tGeoDt.push({
             name: srcNam,
             value: geoData[srcNam],
@@ -710,8 +710,10 @@ function changeTransMap() {
         });
         return tGeoDt;
     }
+
     var planePath = 'circle';
-    mapOption = {
+
+    var mapOption = {
         geo: {
             map: 'china',
             label: {
@@ -734,8 +736,8 @@ function changeTransMap() {
             layoutCenter: ['100%', '100%'],
             // 如果宽高比大于 1 则宽度为 100，如果小于 1 则高度为 100，保证了不超过 100x100 的区域
         },
-        series: [{
-
+        series: [
+        {
             type: 'lines',
             zlevel: 2,
             effect: {
@@ -803,68 +805,9 @@ function changeTransMap() {
                     position: 'right',
                     show: true
                 }
-            },
-
+            }
         }]
     };
-
-    // var Province = "";
-    // mapChart.on('click', function (params){
-    // 	var mapChart= echarts.init(document.getElementById('mapRmodynamic'));
-    // 	console.log(params);
-
-    // 	Province = params.name;
-    // 	if(params.componentType=='geo'||Province=='北京'||Province=='上海'||Province=='重庆'){
-    // 		mapTranOption = {
-    // 		    tooltip: {
-    // 		        trigger: 'item',
-    // 		        formatter: '{b}'
-    // 		    },
-    // 		    textStyle: {
-    // 		    	color: '#f2f3f5'
-    // 		    },
-    // 		    series: [
-    // 		        {
-    // 		            name: '中国',
-    // 		            type: 'map',
-    // 		            mapType: Province,
-    // 		            selectedMode : 'single',
-    // 		            label: {
-    // 		                normal: {
-    // 		                    show: true
-    // 		                },
-    // 		                emphasis: {
-    // 		                    show: true
-    // 		                }
-    // 		            },
-    // 		            itemStyle: {
-    // 			            normal: {
-    // 			                areaColor: 'transparent',
-    // 			                borderColor: '#63e0e3',
-    // 			                color: 'red',
-    // 			            },
-    // 			            emphasis: {
-    // 			                areaColor: '#061c2f',
-    // 			                color: '#fff',
-    // 			            }
-    // 			        },
-    // 		            data:[]
-    // 		        }
-    // 		    ]
-    // 		};
-    // 	}else{
-    // 		alert('请选择所属省份');
-    // 	}
-    // 	mapChart.setOption(mapTranOption);
-    // 	mapTransChart.on('click', function (params){
-    // 		changeTransMap();
-    // 	});
-
-    // 		window.addEventListener("resize",function(){
-    //       	 	mapChart.resize();
-    //   		});
-    // });
-
     mapChart.setOption(mapOption, true);
     window.addEventListener("resize", function() {
         mapChart.resize();
