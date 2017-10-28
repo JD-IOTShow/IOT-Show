@@ -256,7 +256,7 @@ public class ShowController {
         this.transportDataSource.add(new CityData("杭州", "[119.5313, 29.8773]",47));
         this.transportDataSource.add(new CityData("成都", "[103.9526, 30.7617]",13));
         this.transportDataSource.add(new CityData("拉萨", "[91.1865, 30.1465]",15));
-        this.transportDataSource.add(new CityData("天津", "[117.4219, 39.4189]",29));
+        this.transportDataSource.add(new CityData("赤峰", "[118.87, 42.28]",29));
         this.transportDataSource.add(new CityData("合肥", "[117.29, 32.0581]",35));
         this.transportDataSource.add(new CityData("呼和浩特", "[111.4124, 40.4901]",46));
         this.transportDataSource.add(new CityData("哈尔滨", "[127.9688, 45.368]",78));
@@ -266,6 +266,14 @@ public class ShowController {
         this.transportDataSource.add(new CityData("南昌", "[116.0046, 28.6633]",33));
         this.transportDataSource.add(new CityData("乌鲁木齐", "[87.9236, 43.5883]",45));
         this.transportDataSource.add(new CityData("克拉玛依", "[84.77, 45.59]",31));
+        this.transportDataSource.add(new CityData("吐鲁番", "[89.19, 42.91]",31));
+        this.transportDataSource.add(new CityData("西安", "[109.1162, 34.2004]",41));
+        this.transportDataSource.add(new CityData("酒泉", "[98.5, 39.71]",36));
+        this.transportDataSource.add(new CityData("兰州", "[103.73, 36.03]",14));
+        this.transportDataSource.add(new CityData("林芝", "[94.25, 29.59]",27));
+        this.transportDataSource.add(new CityData("墨脱", "[95.26, 29.22]",15));
+        this.transportDataSource.add(new CityData("西宁", "[101.74, 36.56]",31));
+        this.transportDataSource.add(new CityData("玉树", "[96.97, 33.03]",29));
 
         this.transportDataSource.add(new CityData("汕尾", "[115.375279, 22.786211]",23));
         this.transportDataSource.add(new CityData("深圳", "[114.54, 22.54]",41));
@@ -274,7 +282,9 @@ public class ShowController {
         this.transportDataSource.add(new CityData("佛山", "[113.11, 23.05]",35));
         this.transportDataSource.add(new CityData("肇庆", "[112.44, 23.05]",16));
         this.transportDataSource.add(new CityData("茂名", "[110.88, 21.68]",11));
-        this.transportDataSource.add(new CityData("韶关", "[113.62, 24.84]",18));
+        this.transportDataSource.add(new CityData("韶关", "[113.62, 24.84]",25));
+        this.transportDataSource.add(new CityData("阳江", "[111.95, 21.85]",38));
+        this.transportDataSource.add(new CityData("湛江", "[110.24, 21.11]",27));
 
     }
 
@@ -308,8 +318,8 @@ public class ShowController {
         for(int i=0; i<2; i++){
             int indexDestination = (int)(Math.random()*3);
             CityData destination = this.transportDataDestination.get(indexDestination);
-            for(int j=0; j<10; j++){
-                int indexSource = (int)(Math.random()*30);
+            for(int j=0; j<15; j++){
+                int indexSource = (int)(Math.random()*40);
                 CityData source = this.transportDataSource.get(indexSource);
                 result.append("["
                         +"{\"cityName\":" + "\"" + source.cityName + "\""
@@ -322,7 +332,7 @@ public class ShowController {
                         +"}"
                     +"]"
                 );
-                if(i!=1 || j!=9){
+                if(i!=1 || j!=14){
                     result.append(",");
                 }
             }
