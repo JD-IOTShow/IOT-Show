@@ -23,106 +23,106 @@ $(document).ready(function() {
     });
 });
 
-function createPie() {
-    var percent = 0.7;
-
-
-    function getData(color) {
-        return [{
-            value: percent,
-            itemStyle: {
-                normal: {
-                    color: color
-                }
-            }
-        }, {
-            value: 1 - percent,
-            itemStyle: {
-                normal: {
-                    color: 'transparent'
-                }
-            }
-        }];
-    }
-
-    var onlineOption = {
-        backgroundColor: 'transparent',
-
-        title: {
-            text: (percent * 100) + '%',
-            x: 'center',
-            y: 'center',
-            textStyle: {
-                color: '#b4b7bb',
-                fontWeight: '100',
-                fontSize: 34,
-            }
-        },
-        series: [{
-                type: 'pie',
-                radius: ['90%', '93.5%'], //图表内圈占整个div的比例
-                silent: true,
-                label: {
-                    normal: {
-                        show: false,
-                    }
-                },
-                data: [{
-                    value: .5,
-                    itemStyle: {
-                        normal: {
-                            color: '#adadad',
-                            opacity: .2
-                        }
-                    }
-                }],
-
-                animation: false
-            },
-
-            {
-                name: 'main',
-                type: 'pie',
-                radius: ['97%', '99.5%'], //图表外圈占整个div的比例
-                label: {
-                    normal: {
-                        show: false,
-                    }
-                },
-                animationEasingUpdate: 'cubicInOut',
-                animationDurationUpdate: 500
-            }
-        ]
-    };
-    //onlineChart.setOption(onlineOption);
-    //succeedChart.setOption(onlineOption);
-
-    // setInterval(function() {
-    //     percent = +Math.random();
-    //     onlineChart.setOption({
-    //         title: {
-    //             text: (percent * 100).toFixed(0) + '%'
-    //         },
-    //         series: [{
-    //             name: 'main',
-    //             data: getData('#e84161')
-    //         }]
-    //     });
-    // }, 1000);
-    //
-    // setInterval(function() {
-    //     percent = +Math.random();
-    //     succeedChart.setOption({
-    //         title: {
-    //             text: (percent * 100).toFixed(0) + '%'
-    //         },
-    //         series: [{
-    //             name: 'main',
-    //             data: getData('#38a7c2')
-    //         }]
-    //     });
-    // }, 1000);
-}
+// function createPie() {
+//     var percent = 0.7;
+//
+//
+//     function getData(color) {
+//         return [{
+//             value: percent,
+//             itemStyle: {
+//                 normal: {
+//                     color: color
+//                 }
+//             }
+//         }, {
+//             value: 1 - percent,
+//             itemStyle: {
+//                 normal: {
+//                     color: 'transparent'
+//                 }
+//             }
+//         }];
+//     }
+//
+//     var onlineOption = {
+//         backgroundColor: 'transparent',
+//
+//         title: {
+//             text: (percent * 100) + '%',
+//             x: 'center',
+//             y: 'center',
+//             textStyle: {
+//                 color: '#b4b7bb',
+//                 fontWeight: '100',
+//                 fontSize: 34,
+//             }
+//         },
+//         series: [{
+//                 type: 'pie',
+//                 radius: ['90%', '93.5%'], //图表内圈占整个div的比例
+//                 silent: true,
+//                 label: {
+//                     normal: {
+//                         show: false,
+//                     }
+//                 },
+//                 data: [{
+//                     value: .5,
+//                     itemStyle: {
+//                         normal: {
+//                             color: '#adadad',
+//                             opacity: .2
+//                         }
+//                     }
+//                 }],
+//
+//                 animation: false
+//             },
+//
+//             {
+//                 name: 'main',
+//                 type: 'pie',
+//                 radius: ['97%', '99.5%'], //图表外圈占整个div的比例
+//                 label: {
+//                     normal: {
+//                         show: false,
+//                     }
+//                 },
+//                 animationEasingUpdate: 'cubicInOut',
+//                 animationDurationUpdate: 500
+//             }
+//         ]
+//     };
+//     onlineChart.setOption(onlineOption);
+//     succeedChart.setOption(onlineOption);
+//
+//     setInterval(function() {
+//         percent = +Math.random();
+//         onlineChart.setOption({
+//             title: {
+//                 text: (percent * 100).toFixed(0) + '%'
+//             },
+//             series: [{
+//                 name: 'main',
+//                 data: getData('#e84161')
+//             }]
+//         });
+//     }, 1000);
+//
+//     setInterval(function() {
+//         percent = +Math.random();
+//         succeedChart.setOption({
+//             title: {
+//                 text: (percent * 100).toFixed(0) + '%'
+//             },
+//             series: [{
+//                 name: 'main',
+//                 data: getData('#38a7c2')
+//             }]
+//         });
+//     }, 1000);
+//}
 
 
 
