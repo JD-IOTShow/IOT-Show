@@ -68,4 +68,18 @@ $(document).ready(function(){
             turnover2.data('flipTimer').calculateDate();
         }});
     },1000);
+
+    setInterval(function(){
+        $.ajax({url:"commonCount",success:function(result){
+            var commonProductCnt = $.parseJSON(result).result.object[0].commonProductCnt;
+            var commonDeviceCnt = $.parseJSON(result).result.object[0].commonDeviceCnt;
+            var commonAppCnt = $.parseJSON(result).result.object[0].commonAppCnt;
+            var commonAbilityCnt = $.parseJSON(result).result.object[0].commonAbilityCnt;
+
+            $('.data-list').find('li').eq(0).find('.num').text(commonProductCnt);
+            $('.data-list').find('li').eq(1).find('.num').text(commonDeviceCnt);
+            $('.data-list').find('li').eq(2).find('.num').text(commonAppCnt);
+            $('.data-list').find('li').eq(3).find('.num').text(commonAbilityCnt);
+        }});
+    },1000);
 });

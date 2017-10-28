@@ -473,6 +473,6 @@ function changeUlnum(){
   	$('.data-list').find('li').eq(i).find('.num').text(arr[i]);
   }
 }
-setInterval(function() {
-        changeUlnum();
-    }, 1000);
+// setInterval(function() {
+//         changeUlnum();
+//     }, 1000);
