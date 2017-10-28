@@ -9,7 +9,7 @@ $(function() {
         if ($(this).hasClass('rmodynamic')) {
             changeMap();
         } else {
-            changeTransMap();
+            handleTransportMap();
         }
     });
 
@@ -19,7 +19,7 @@ $(function() {
         var ind = $('.tab-header .active').index();
         // console.log(ind);
         if (ind == 0) {
-            changeTransMap();
+            handleTransportMap();
         } else {
             changeMap();
         }
@@ -380,8 +380,7 @@ function changeMap() {
         return res;
     };
 
-    mapOption = {
-
+    var mapOption = {
         tooltip: {
             trigger: 'item',
             formatter: '{b}'
@@ -556,163 +555,95 @@ mapChart.on('click', function(params) {
     });
 });
 
-function changeTransMap() {
-    //var mapTransChart= echarts.init(document.getElementById('maTransmission'));
 
-    var data = [
-        {
-            name: '长春',
-            value: 90
-        }, {
-            name: '长沙',
-            value: 10
-        }, {
-            name: '贵阳',
-            value: 20
-        }, {
-            name: '西安',
-            value: 120
-        }, {
-            name: '深圳',
-            value: 200
-        }, {
-            name: '济南',
-            value: 150
-        }, {
-            name: '海口',
-            value: 58
-        }, {
-            name: '沈阳',
-            value: 64
-        }, {
-            name: '武汉',
-            value: 168
-        }, {
-            name: '昆明',
-            value: 45
-        }, {
-            name: '杭州',
-            value: 68
-        }, {
-            name: '成都',
-            value: 149
-        }, {
-            name: '拉萨',
-            value: 66
-        }, {
-            name: '天津',
-            value: 206
-        }, {
-            name: '合肥',
-            value: 58
-        }, {
-            name: '呼和浩特',
-            value: 59
-        }, {
-            name: '哈尔滨',
-            value: 95
-        }, {
-            name: '北京',
-            value: 168
-        }, {
-            name: '南京',
-            value: 156
-        }, {
-            name: '南宁',
-            value: 89
-        }, {
-            name: '南昌',
-            value: 48
-        }, {
-            name: '乌鲁木齐',
-            value: 149
-        }, {
-            name: '上海',
-            value: 178
-        }
-    ];
-
-    //坐标信息
-    var geoCoordMap = {
-        '长春': [125.8154, 44.2584],
-        '长沙': [113.0823, 28.2568],
-        '贵阳': [106.6992, 26.7682],
-        '西安': [109.1162, 34.2004],
-        '深圳': [114.5435, 22.5439],
-        '济南': [117.1582, 36.8701],
-        '海口': [110.3893, 19.8516],
-        '沈阳': [123.1238, 42.1216],
-        '武汉': [114.3896, 30.6628],
-        '昆明': [102.9199, 25.4663],
-        '杭州': [119.5313, 29.8773],
-        '成都': [103.9526, 30.7617],
-        '拉萨': [91.1865, 30.1465],
-        '天津': [117.4219, 39.4189],
-        '合肥': [117.29, 32.0581],
-        '呼和浩特': [111.4124, 40.4901],
-        '哈尔滨': [127.9688, 45.368],
-        '北京': [116.4551, 40.2539],
-        '南京': [118.8062, 31.9208],
-        '南宁': [108.479, 23.1152],
-        '南昌': [116.0046, 28.6633],
-        '乌鲁木齐': [87.9236, 43.5883],
-        '上海': [121.4648, 31.2891]
-    };
-
-    function formtGCData(geoData, data, srcNam, dest) {
+//数据传输地图
+function changeTransMap(dataArray) {
+    function formtGCData() {
         var tGeoDt = [];
-        if (dest) {
-            for (var i = 0, len = data.length; i < len; i++) {
-                if (srcNam != data[i].name) {
-                    tGeoDt.push({
-                        coords: [geoData[srcNam], geoData[data[i].name]]
-                    });
-                }
-            }
-        } else {
-            for (var i = 0, len = data.length; i < len; i++) {
-                if (srcNam != data[i].name) {
-                    tGeoDt.push({
-                        coords: [geoData[data[i].name], geoData[srcNam]]
-                    });
-                }
-            }
+        for(var i=0; i<dataArray.length; i++){
+            tGeoDt.push({
+                coords: [dataArray[i][0].coordinate, dataArray[i][1].coordinate]
+            });
         }
+        // if (dest) {
+        //     for (var i = 0, len = data.length; i < len; i++) {
+        //         if (srcNam != data[i].name) {
+        //             tGeoDt.push({
+        //                 coords: [geoData[srcNam], geoData[data[i].name]]
+        //             });
+        //         }
+        //     }
+        // } else {
+        //     for (var i = 0, len = data.length; i < len; i++) {
+        //         if (srcNam != data[i].name) {
+        //             tGeoDt.push({
+        //                 coords: [geoData[data[i].name], geoData[srcNam]]
+        //             });
+        //         }
+        //     }
+        // }
         return tGeoDt;
     }
 
-    var convertData = function(data) {
+    var convertData = function() {
         var res = [];
-        for (var i = 0; i < data.length; i++) {
-            var geoCoord = geoCoordMap[data[i].name];
-            if (geoCoord) {
-                res.push({
-                    name: data[i].name,
-                    value: geoCoord.concat(data[i].value)
-                });
-            }
+        // for (var i = 0; i < data.length; i++) {
+        //     var geoCoord = geoCoordMap[data[i].name];
+        //     if (geoCoord) {
+        //         res.push({
+        //             name: data[i].name,
+        //             value: geoCoord.concat(data[i].value)
+        //         });
+        //     }
+        // }
+        var keyValue = {};
+        for(var i=0; i<dataArray.length; i++){
+            keyValue[dataArray[i][0].cityName] = dataArray[i][0].coordinate.concat(dataArray[i][0].deviceCount);
+            keyValue[dataArray[i][1].cityName] = dataArray[i][1].coordinate.concat(dataArray[i][1].deviceCount);
+        }
+        for (var key in keyValue){
+            res.push({
+                name: key,
+                value: keyValue[key]
+            });
         }
         return res;
     };
 
-    function formtVData(geoData, data, srcNam) {
+    function formtVData() {
         var tGeoDt = [];
-        tGeoDt.push({
-            name: srcNam,
-            value: geoData[srcNam],
-            symbolSize: 12,
-            itemStyle: {
-                normal: {
-                    color: '#e84161',
-                    borderColor: '#000'
+        var keyValue = {};
+        for(var i=0; i<dataArray.length; i++){
+            keyValue[dataArray[i][1].cityName] = dataArray[i][1].coordinate;
+        }
+        for (var key in keyValue){
+            tGeoDt.push({
+                name: key,
+                value: keyValue[key],
+                symbolSize: 12,
+                itemStyle: {
+                    normal: {
+                        color: '#e84161',
+                        borderColor: '#000'
+                    }
                 }
-            }
-        });
+            });
+        }
+        // tGeoDt.push({
+        //     name: srcNam,
+        //     value: geoData[srcNam],
+        //     symbolSize: 12,
+        //     itemStyle: {
+        //         normal: {
+        //             color: '#e84161',
+        //             borderColor: '#000'
+        //         }
+        //     }
+        // });
         return tGeoDt;
     }
 
     var planePath = 'circle';
-
     var mapOption = {
         geo: {
             map: 'china',
@@ -756,14 +687,14 @@ function changeTransMap() {
                     curveness: 0.2
                 }
             },
-            data: formtGCData(geoCoordMap, data, '贵阳', false)
+            data: formtGCData()
         }, {
             name: 'data',
             type: 'scatter',
             coordinateSystem: 'geo',
-            data: convertData(data),
+            data: convertData(),
             symbolSize: function(val) {
-                return val[2] / 10;
+                return val[2] / 5;
             },
             label: {
                 normal: {
@@ -791,7 +722,7 @@ function changeTransMap() {
                 scale: 2.5,
                 brushType: 'stroke'
             },
-            data: formtVData(geoCoordMap, data, '贵阳'),
+            data: formtVData(),
             //小圆点大小
             symbolSize: 20,
             showEffectOn: 'render',
@@ -813,4 +744,14 @@ function changeTransMap() {
         mapChart.resize();
     });
 }
-//数据传输地图
+
+function handleTransportMap() {
+    $.ajax({url:"transportMap",success:function(result){
+        var dataArray = $.parseJSON(result).result.object;
+        changeTransMap(dataArray);
+    }});
+}
+
+$(document).ready(function(){
+    setInterval(handleTransportMap,5000);
+});
