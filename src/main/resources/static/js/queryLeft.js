@@ -10,6 +10,7 @@ var turnover2 = $('.dowebok2').flipTimer({
     direction: 'up',
     date: arr2
 });
+
 $(document).ready(function(){
     setInterval(function(){
         $.ajax({url:"queryPlatStatusAll",success:function(result){
@@ -83,3 +84,117 @@ $(document).ready(function(){
         }});
     },1000);
 });
+
+
+
+var onlineChart = echarts.init(document.getElementById('online-rate'));
+var succeedChart = echarts.init(document.getElementById('succeed-rate'));
+$(document).ready(function() {
+    //生成各个图表
+    createPie();
+    window.addEventListener("resize", function() {
+        onlineChart.resize();
+    });
+});
+function createPie() {
+    function getData(color,percent) {
+        return [
+        {
+            value: percent,
+            itemStyle: {
+                normal: {
+                    color: color
+                }
+            }
+        },
+        {
+            value: 1 - percent,
+            itemStyle: {
+                normal: {
+                    color: 'transparent'
+                }
+            }
+        }];
+    }
+
+    var percent = 0;
+    var onlineOption = {
+        backgroundColor: 'transparent',
+        title: {
+            text: (percent * 100) + '%',
+            x: 'center',
+            y: 'center',
+            textStyle: {
+                color: '#b4b7bb',
+                fontWeight: '100',
+                fontSize: 34,
+            }
+        },
+        series: [
+            {
+                type: 'pie',
+                radius: ['90%', '93.5%'], //图表内圈占整个div的比例
+                silent: true,
+                label: {
+                    normal: {
+                        show: false,
+                    }
+                },
+                data: [{
+                    value: .5,
+                    itemStyle: {
+                        normal: {
+                            color: '#adadad',
+                            opacity: .2
+                        }
+                    }
+                }],
+                animation: false
+            },
+            {
+                name: 'main',
+                type: 'pie',
+                radius: ['97%', '99.5%'], //图表外圈占整个div的比例
+                label: {
+                    normal: {
+                        show: false,
+                    }
+                },
+                animationEasingUpdate: 'cubicInOut',
+                animationDurationUpdate: 500
+            }
+        ]
+    };
+    onlineChart.setOption(onlineOption);
+    succeedChart.setOption(onlineOption);
+
+    setInterval(function(){
+        $.ajax({url:"onlineRate",success:function(result){
+            var percent = $.parseJSON(result).result.object[0].onlineRate;
+            onlineChart.setOption({
+                title: {
+                    text: (percent * 100).toFixed(0) + '%'
+                },
+                series: [{
+                    name: 'main',
+                    data: getData('#e84161',percent)
+                }]
+            });
+        }});
+    },1000);
+
+    setInterval(function() {
+        $.ajax({url:"successRate",success:function(result){
+            var percent = $.parseJSON(result).result.object[0].successRate;
+            succeedChart.setOption({
+                title: {
+                    text: (percent * 100).toFixed(0) + '%'
+                },
+                series: [{
+                    name: 'main',
+                    data: getData('#38a7c2',percent)
+                }]
+            });
+        }});
+    }, 1000);
+}

@@ -1,7 +1,7 @@
 //判断是多大的屏幕
 var winTimes = 1;
-var onlineChart = echarts.init(document.getElementById('online-rate'));
-var succeedChart = echarts.init(document.getElementById('succeed-rate'));
+// var onlineChart = echarts.init(document.getElementById('online-rate'));
+// var succeedChart = echarts.init(document.getElementById('succeed-rate'));
 var activityChart = echarts.init(document.getElementById('activity-rate'));
 var callTrendChart = echarts.init(document.getElementById('call-rate-trend'));
 var dataTrendChart = echarts.init(document.getElementById('data-rate-trend'));
@@ -9,14 +9,14 @@ var dataTrendChart = echarts.init(document.getElementById('data-rate-trend'));
 
 $(document).ready(function() {
     //生成各个图表
-    createPie();
+    //createPie();
     createActivityBar();
     createCallTrendLine();
     createDataTrendLine();
 
     window.addEventListener("resize", function() {
-        onlineChart.resize();
-        succeedChart.resize();
+        //onlineChart.resize();
+        //succeedChart.resize();
         activityChart.resize();
         callTrendChart.resize();
         dataTrendChart.resize();
@@ -94,34 +94,34 @@ function createPie() {
             }
         ]
     };
-    onlineChart.setOption(onlineOption);
-    succeedChart.setOption(onlineOption);
+    //onlineChart.setOption(onlineOption);
+    //succeedChart.setOption(onlineOption);
 
-    setInterval(function() {
-        percent = +Math.random();
-        onlineChart.setOption({
-            title: {
-                text: (percent * 100).toFixed(0) + '%'
-            },
-            series: [{
-                name: 'main',
-                data: getData('#e84161')
-            }]
-        });
-    }, 1000);
-
-    setInterval(function() {
-        percent = +Math.random();
-        succeedChart.setOption({
-            title: {
-                text: (percent * 100).toFixed(0) + '%'
-            },
-            series: [{
-                name: 'main',
-                data: getData('#38a7c2')
-            }]
-        });
-    }, 1000);
+    // setInterval(function() {
+    //     percent = +Math.random();
+    //     onlineChart.setOption({
+    //         title: {
+    //             text: (percent * 100).toFixed(0) + '%'
+    //         },
+    //         series: [{
+    //             name: 'main',
+    //             data: getData('#e84161')
+    //         }]
+    //     });
+    // }, 1000);
+    //
+    // setInterval(function() {
+    //     percent = +Math.random();
+    //     succeedChart.setOption({
+    //         title: {
+    //             text: (percent * 100).toFixed(0) + '%'
+    //         },
+    //         series: [{
+    //             name: 'main',
+    //             data: getData('#38a7c2')
+    //         }]
+    //     });
+    // }, 1000);
 }
 
 
