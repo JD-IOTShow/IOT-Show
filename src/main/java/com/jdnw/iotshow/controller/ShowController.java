@@ -259,10 +259,10 @@ public class ShowController {
         this.transportDataSource.add(new CityData("赤峰", "[118.87, 42.28]",29));
         this.transportDataSource.add(new CityData("合肥", "[117.29, 32.0581]",35));
         this.transportDataSource.add(new CityData("呼和浩特", "[111.4124, 40.4901]",46));
-        this.transportDataSource.add(new CityData("哈尔滨", "[127.9688, 45.368]",78));
+        this.transportDataSource.add(new CityData("哈尔滨", "[127.9688, 45.368]",38));
         this.transportDataSource.add(new CityData("银川", "[106.27, 38.47]",27));
         this.transportDataSource.add(new CityData("南京", "[118.8062, 31.9208]",42));
-        this.transportDataSource.add(new CityData("南宁", "[108.479, 23.1152]",74));
+        this.transportDataSource.add(new CityData("南宁", "[108.479, 23.1152]",54));
         this.transportDataSource.add(new CityData("南昌", "[116.0046, 28.6633]",33));
         this.transportDataSource.add(new CityData("乌鲁木齐", "[87.9236, 43.5883]",45));
         this.transportDataSource.add(new CityData("克拉玛依", "[84.77, 45.59]",31));
@@ -290,9 +290,10 @@ public class ShowController {
 
     private ArrayList<CityData> transportDataDestination = new ArrayList<CityData>();
     {
-        this.transportDataDestination.add(new CityData("广州", "[113.23, 23.16]",54));
+        this.transportDataDestination.add(new CityData("广州", "[113.23, 23.16]",84));
         this.transportDataDestination.add(new CityData("北京", "[116.4551, 40.2539]",95));
-        this.transportDataDestination.add(new CityData("上海", "[121.4648, 31.2891]",81));
+        this.transportDataDestination.add(new CityData("上海", "[121.4648, 31.2891]",91));
+        this.transportDataDestination.add(new CityData("重庆", "[106.33, 29.35]",88));
     }
 
     @RequestMapping("/transportMap")
@@ -316,9 +317,9 @@ public class ShowController {
         StringBuffer result = new StringBuffer();
         result.append("{\"result\":{\"object\":[");
         for(int i=0; i<2; i++){
-            int indexDestination = (int)(Math.random()*3);
+            int indexDestination = (int)(Math.random()*4);
             CityData destination = this.transportDataDestination.get(indexDestination);
-            for(int j=0; j<15; j++){
+            for(int j=0; j<20; j++){
                 int indexSource = (int)(Math.random()*40);
                 CityData source = this.transportDataSource.get(indexSource);
                 result.append("["
@@ -332,9 +333,57 @@ public class ShowController {
                         +"}"
                     +"]"
                 );
-                if(i!=1 || j!=14){
+                if(i!=1 || j!=19){
                     result.append(",");
                 }
+            }
+        }
+        result.append("]}}");
+        return result.toString();
+    }
+
+    @RequestMapping("/heatMap")
+    @ResponseBody
+    public String heatMap(){
+        SoapClient soapClient = new SoapClient("heatMap",
+                "http://10.3.6.40:9773/services/dw_admin?wsdl");
+        Map<String, String> patameterMap = new HashMap<String, String>(2);
+        patameterMap.put("VC_USER_ID", "ALL");
+        patameterMap.put("TENANT_ID", "ALL");
+
+        String soapRequestData = soapClient.buildRequestData(patameterMap);
+        System.out.println(soapRequestData);
+        try {
+            //String soapResponseData = soapClient.invoke(patameterMap);
+            //result = XmlUtil.xml2JSON(soapResponseData.getBytes()).toJSONString();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        StringBuffer result = new StringBuffer();
+        result.append("{\"result\":{\"object\":[");
+        for(int i=0; i<2; i++){
+            int indexSource = (int)(Math.random()*4);
+            CityData destination = this.transportDataDestination.get(indexSource);
+            result.append("{"
+                    +"\"cityName\":" + "\"" + destination.cityName + "\""
+                    +",\"coordinate\":" + "" + destination.coordinate + ""
+                    +",\"deviceCount\":" + "\"" + destination.deviceCount + "\""
+                    +"}"
+            );
+            result.append(",");
+        }
+        for(int j=0; j<30; j++){
+            int indexSource = (int)(Math.random()*40);
+            CityData source = this.transportDataSource.get(indexSource);
+            result.append("{"
+                    +"\"cityName\":" + "\"" + source.cityName + "\""
+                    +",\"coordinate\":" + "" + source.coordinate + ""
+                    +",\"deviceCount\":" + "\"" + source.deviceCount + "\""
+                +"}"
+            );
+            if(j!=29){
+                result.append(",");
             }
         }
         result.append("]}}");
