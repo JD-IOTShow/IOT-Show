@@ -312,6 +312,9 @@ mapChart.on('click', function(params) {
             };
         } else {
             alert('请选择所属省份');
+            $('#mapRmodynamic').addClass('active');
+            $('#sonMap').removeClass('active');
+            return;
         }
         mapChart.on('click', function (params) {
             $('#mapRmodynamic').addClass('active');
