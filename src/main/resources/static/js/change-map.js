@@ -20,7 +20,7 @@ $(function() {
         } else {
             handleHeatMap();
         }
-        $('.tab-header .active').removeClass('active').siblings().addClass('active');
+        //$('.tab-header .active').removeClass('active').siblings().addClass('active');
     }, 20000);
     timer_array.push(timer);
     //hover事件完成悬停
@@ -34,11 +34,11 @@ $(function() {
             var ind = $('.tab-header .active').index();
             // console.log(ind);
             if (ind == 0) {
-                //handleTransportMap();
+                handleTransportMap();
             } else {
                 handleHeatMap();
             }
-            $('.tab-header .active').removeClass('active').siblings().addClass('active');
+            //$('.tab-header .active').removeClass('active').siblings().addClass('active');
         }, 20000);
         timer_array.push(timer);
     })
@@ -49,7 +49,8 @@ function handleHeatMap() {
     $.ajax({url:"heatMap",success:function(result){
         var dataArray = $.parseJSON(result).result.object;
         changeMap(dataArray);
-        $('.tab-header .active').removeClass('active').siblings().addClass('active');
+        $('.rmodynamic').addClass('active');
+        $('.transmission').removeClass('active');
     }});
 }
 
@@ -403,7 +404,8 @@ function handleTransportMap() {
     $.ajax({url:"transportMap",success:function(result){
         var dataArray = $.parseJSON(result).result.object;
         changeTransMap(dataArray);
-        $('.tab-header .active').removeClass('active').siblings().addClass('active');
+        $('.rmodynamic').removeClass('active');
+        $('.transmission').addClass('active');
     }});
 }
 
