@@ -192,56 +192,140 @@ mapChart.on('click', function(params) {
     ///--console.log(params);
     $('#mapRmodynamic').removeClass('active');
     $('#sonMap').addClass('active');
-    Province = params.name;
-    if (params.componentType == 'geo' || Province == '北京' || Province == '上海' || Province == '重庆') {
-        var mapOption = {
-            tooltip: {
-                trigger: 'item',
-                formatter: '{b}'
-            },
-            textStyle: {
-                color: '#f2f3f5'
-            },
-            series: [{
-                name: '中国',
-                type: 'map',
-                mapType: Province,
-                selectedMode: 'single',
-                label: {
-                    normal: {
-                        show: false,
+    $.ajax({url:"heatMap",success:function(result) {
+        var dataArray = $.parseJSON(result).result.object;
+        var convertData = function() {
+            dataArray.sort(function(a, b) {
+                return b.deviceCount - a.deviceCount;
+            });
+            var res = [];
+            for (var i = 0; i < dataArray.length; i++) {
+                res.push({
+                    name: dataArray[i].cityName,
+                    value: dataArray[i].coordinate.concat(dataArray[i].deviceCount)
+                });
+            }
+            return res;
+        };
+
+        Province = params.name;
+        if (params.componentType == 'geo' || Province == '北京' || Province == '天津' || Province == '上海' || Province == '重庆') {
+            var mapOption = {
+                tooltip: {
+                    trigger: 'item',
+                    formatter: '{b}'
+                },
+                textStyle: {
+                    color: '#f2f3f5'
+                },
+                visualMap: {
+                    min: 0,
+                    max: 100,
+                    calculable: true,
+                    inRange: {
+                        color: ['#0993ce', '#6d6f9f', '#eb355e'],
+                        symbolSize: [5, 30]
+                    },
+                    controller: {
+                        inRange: {
+                            symbolSize: [10, 10]
+                        }
+                    },
+                    textStyle: {
                         color: '#fff'
                     }
                 },
-                itemStyle: {
-                    normal: {
-                        areaColor: 'transparent',
-                        borderColor: '#63e0e3',
-                        color: 'red',
+                geo: {
+                    map: Province,
+                    //type: 'map',
+                    //mapType: Province,
+                    label: {
+                        emphasis: {
+                            show: false
+                        }
                     },
-                    emphasis: {
-                        areaColor: '#061c2f',
-                        color: '#fff',
-                    }
+                    roam: false,
+                    itemStyle: {
+                        normal: {
+                            areaColor: 'transparent',
+                            borderColor: '#63e0e3'
+                        },
+                        emphasis: {
+                            areaColor: '#061c2f'
+                        }
+                    },
+                    left: 0,
+                    right: 0,
+                    layoutCenter: ['100%', '100%'],
+                    // 如果宽高比大于 1 则宽度为 100，如果小于 1 则高度为 100，保证了不超过 100x100 的区域
                 },
-                data: []
-            }]
-        };
-    } else {
-        alert('请选择所属省份');
-    }
-    mapChart.on('click', function(params) {
-        $('#mapRmodynamic').addClass('active');
-        $('#sonMap').removeClass('active');
-        var ind = $('.tab-header .active').index();
-        ///--(ind);
-        if (ind == 1) {
-            handleTransportMap();
+                series: [
+                    // {
+                    //     name: '中国',
+                    //     type: 'map',
+                    //     mapType: Province,
+                    //     selectedMode: 'single',
+                    //     label: {
+                    //         normal: {
+                    //             show: false,
+                    //             color: '#fff'
+                    //         }
+                    //     },
+                    //     itemStyle: {
+                    //         normal: {
+                    //             areaColor: 'transparent',
+                    //             borderColor: '#63e0e3',
+                    //             color: 'red',
+                    //         },
+                    //         emphasis: {
+                    //             areaColor: '#061c2f',
+                    //             color: '#fff',
+                    //         }
+                    //     },
+                    //     data: []
+                    // },
+                    {
+                        name: 'data',
+                        type: 'scatter',
+                        coordinateSystem: 'geo',
+                        data: convertData(),
+                        symbolSize: function (val) {
+                            return val[2] / 10;
+                        },
+                        label: {
+                            normal: {
+                                formatter: '{b}',
+                                position: 'right',
+                                show: false
+                            },
+                            emphasis: {
+                                show: true
+                            }
+                        },
+                        itemStyle: {
+                            normal: {
+                                color: '#ddb926'
+                            }
+                        }
+                    }
+                ]
+            };
         } else {
-            handleHeatMap();
+            alert('请选择所属省份');
         }
-    });
-    mapChart.setOption(mapOption);
+        mapChart.on('click', function (params) {
+            $('#mapRmodynamic').addClass('active');
+            $('#sonMap').removeClass('active');
+            var ind = $('.tab-header .active').index();
+            ///--(ind);
+            if (ind == 1) {
+                handleTransportMap();
+            } else {
+                handleHeatMap();
+            }
+        });
+        mapChart.setOption(mapOption, true);
+    }});
     window.addEventListener("resize", function() {
         mapChart.resize();
     });
