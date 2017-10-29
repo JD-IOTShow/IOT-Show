@@ -194,7 +194,7 @@ mapChart.on('click', function(params) {
     $('#sonMap').addClass('active');
     Province = params.name;
     if (params.componentType == 'geo' || Province == '北京' || Province == '上海' || Province == '重庆') {
-        mapOption = {
+        var mapOption = {
             tooltip: {
                 trigger: 'item',
                 formatter: '{b}'
@@ -236,9 +236,9 @@ mapChart.on('click', function(params) {
         var ind = $('.tab-header .active').index();
         ///--(ind);
         if (ind == 1) {
-            changeTransMap();
+            handleTransportMap();
         } else {
-            changeMap();
+            handleHeatMap();
         }
     });
     mapChart.setOption(mapOption);
