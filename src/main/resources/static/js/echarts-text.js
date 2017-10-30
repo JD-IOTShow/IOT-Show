@@ -1,7 +1,7 @@
 //判断是多大的屏幕
 var winTimes = 1;
-var onlineChart = echarts.init(document.getElementById('online-rate'));
-var succeedChart = echarts.init(document.getElementById('succeed-rate'));
+// var onlineChart = echarts.init(document.getElementById('online-rate'));
+// var succeedChart = echarts.init(document.getElementById('succeed-rate'));
 var activityChart = echarts.init(document.getElementById('activity-rate'));
 var callTrendChart = echarts.init(document.getElementById('call-rate-trend'));
 var dataTrendChart = echarts.init(document.getElementById('data-rate-trend'));
@@ -9,7 +9,7 @@ var dataTrendChart = echarts.init(document.getElementById('data-rate-trend'));
 
 $(document).ready(function() {
     //生成各个图表
-    createPie();
+    // createPie();
     createActivityBar();
     createCallTrendLine();
     createDataTrendLine();

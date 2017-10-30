@@ -1,8 +1,10 @@
 package com.jdnw.iotshow.controller;
 
-import ch.qos.logback.core.joran.spi.XMLUtil;
+import com.alibaba.fastjson.JSONObject;
 import com.jdnw.iotshow.util.SoapClient;
 import com.jdnw.iotshow.util.XmlUtil;
+import com.scinfo.aep.sdk.general.impl.GeneralRequestImpl;
+import com.scinfo.entity.AppHeader;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,6 +24,10 @@ import java.util.Map;
  **/
 @Controller
 public class ShowController {
+    private boolean mockData = true;
+    private String appId = "122";
+    private String appKey = "1715vK65u6d3aQ8";
+
     private int count1 = 135095;
     private int count2 = 268070;
     private int count3 = 555;
@@ -38,180 +44,180 @@ public class ShowController {
 
     @RequestMapping("/commonAbilityCallCnt")
     @ResponseBody
-    public String commonAbilityCallCnt(){
-        SoapClient soapClient = new SoapClient("commonAbilityCallCnt",
-                "http://10.3.6.40:9773/services/dw_admin?wsdl");
-        Map<String, String> patameterMap = new HashMap<String, String>(2);
-        patameterMap.put("VC_USER_ID", "ALL");
-        patameterMap.put("TENANT_ID", "ALL");
-
-        String soapRequestData = soapClient.buildRequestData(patameterMap);
-        System.out.println(soapRequestData);
+    public String commonAbilityCallCnt() throws Exception {
         String result = null;
-        try {
-            //String soapResponseData = soapClient.invoke(patameterMap);
-            //result = XmlUtil.xml2JSON(soapResponseData.getBytes()).toJSONString();
-        } catch (Exception e) {
-            e.printStackTrace();
+        if(!mockData) {
+            GeneralRequestImpl gr = new GeneralRequestImpl();
+            AppHeader ah = new AppHeader();
+            ah.setAppId(appId);
+            ah.setAppKey(appKey);
+            ah.setAbilityCode("commonAbilityCallCnt");
+            Map<String, String> map = new HashMap<String, String>();
+            map.put("VC_USER_ID", "ALL");
+            map.put("TENANT_ID", "ALL");
+            String xml = gr.sendSoapReq(ah, map);
+            result = XmlUtil.xml2JSON(xml.getBytes()).toJSONString();;
+        }else {
+            int count = this.count1++;
+            result = "{\"result\":{\"object\":[{\"ABILITY_CALL_CNT\":\"" + count + "\"}]}}";
         }
-
-        int count = this.count1++;
-        result = "{\"result\":{\"object\":[{\"ABILITY_CALL_CNT\":\""+ count +"\"}]}}";
-
         return result;
     }
 
     @RequestMapping("/queryPlatStatusAll")
     @ResponseBody
-    public String queryPlatStatusAll(){
-        SoapClient soapClient = new SoapClient("queryPlatStatusAll",
-                "http://10.3.6.40:9773/services/dw_admin?wsdl");
-
-        SimpleDateFormat formatter;
-        formatter = new SimpleDateFormat ("yyyyMMdd");
-        String today = formatter.format(new Date());
-        Map<String, String> patameterMap = new HashMap<String, String>(3);
-        patameterMap.put("VC_USER_ID", "ALL");
-        patameterMap.put("TENANT_ID", "ALL");
-        patameterMap.put("DATE_CD",today);
-
-        String soapRequestData = soapClient.buildRequestData(patameterMap);
-        System.out.println(soapRequestData);
+    public String queryPlatStatusAll() throws Exception {
         String result = null;
-        try {
-            //String soapResponseData = soapClient.invoke(patameterMap);
-            //result = XmlUtil.xml2JSON(soapResponseData.getBytes()).toJSONString();
-        } catch (Exception e) {
-            e.printStackTrace();
+        if(!mockData) {
+            GeneralRequestImpl gr = new GeneralRequestImpl();
+            AppHeader ah = new AppHeader();
+            ah.setAppId(appId);
+            ah.setAppKey(appKey);
+            ah.setAbilityCode("queryPlatStatusAll");
+            Map<String, String> map = new HashMap<String, String>();
+            SimpleDateFormat formatter;
+            formatter = new SimpleDateFormat ("yyyyMMdd");
+            String today = formatter.format(new Date());
+            map.put("DATE_CD", today);
+            String xml = gr.sendSoapReq(ah, map);
+            result = XmlUtil.xml2JSON(xml.getBytes()).toJSONString();;
+        }else {
+            int count = this.count2++;
+            result = "{\"result\":{\"object\":[{\"SGNL_CNT\":\""+ count +"\"}]}}";
         }
-
-        int count = this.count2++;
-        result = "{\"result\":{\"object\":[{\"sgnlCnt\":\""+ count +"\"}]}}";
-
         return result;
     }
 
     @RequestMapping("/commonCount")
     @ResponseBody
-    public String commonProductCnt(){
+    public String commonProductCnt() throws Exception {
         String result = null;
-        String soapRequestData = null;
-        Map<String, String> patameterMap = null;
-        SoapClient soapClient = null;
+        if(!mockData) {
+            GeneralRequestImpl gr = new GeneralRequestImpl();
+            AppHeader ah = new AppHeader();
+            ah.setAppId(appId);
+            ah.setAppKey(appKey);
+            ah.setAbilityCode("commonProductCnt");
+            Map<String, String> map = new HashMap<String, String>();
+            map.put("USER_ID", "ALL");
+            map.put("TENANT_ID", "ALL");
+            String xml = gr.sendSoapReq(ah, map);
+            JSONObject jsonObject = XmlUtil.xml2JSON(xml.getBytes());
+            String commonProductCnt = jsonObject.getJSONObject("result").getJSONArray("object")
+                    .getJSONObject(0).getString("PRODUCT_CNT");
 
-        soapClient = new SoapClient("commonProductCnt",
-                "http://10.3.6.40:9773/services/dw_admin?wsdl");
-        patameterMap = new HashMap<String, String>(3);
-        patameterMap.put("VC_USER_ID", "ALL");
-        patameterMap.put("TENANT_ID", "ALL");
-        soapRequestData = soapClient.buildRequestData(patameterMap);
-        System.out.println(soapRequestData);
-        try {
-            //String soapResponseData = soapClient.invoke(patameterMap);
-            //result = XmlUtil.xml2JSON(soapResponseData.getBytes()).toJSONString();
-        } catch (Exception e) {
-            e.printStackTrace();
+            gr = new GeneralRequestImpl();
+            ah = new AppHeader();
+            ah.setAppId(appId);
+            ah.setAppKey(appKey);
+            ah.setAbilityCode("commonDeviceCnt");
+            map = new HashMap<String, String>();
+            map.put("USER_ID", "ALL");
+            map.put("TENANT_ID", "ALL");
+            xml = gr.sendSoapReq(ah, map);
+            jsonObject = XmlUtil.xml2JSON(xml.getBytes());
+            String commonDeviceCnt = jsonObject.getJSONObject("result").getJSONArray("object")
+                    .getJSONObject(0).getString("ONLINE_DEVICE_CNT")
+                    + jsonObject.getJSONObject("result").getJSONArray("object")
+                    .getJSONObject(0).getString("OFFLINE_DEVICE_CNT");
+
+            gr = new GeneralRequestImpl();
+            ah = new AppHeader();
+            ah.setAppId(appId);
+            ah.setAppKey(appKey);
+            ah.setAbilityCode("commonDeviceCnt");
+            map = new HashMap<String, String>();
+            map.put("VC_USER_ID", "ALL");
+            map.put("TENANT_ID", "ALL");
+            xml = gr.sendSoapReq(ah, map);
+            jsonObject = XmlUtil.xml2JSON(xml.getBytes());
+            String commonAppCnt = jsonObject.getJSONObject("result").getJSONArray("object")
+                    .getJSONObject(0).getString("APP_CNT");
+
+            gr = new GeneralRequestImpl();
+            ah = new AppHeader();
+            ah.setAppId(appId);
+            ah.setAppKey(appKey);
+            ah.setAbilityCode("commonDeviceCnt");
+            map = new HashMap<String, String>();
+            map.put("VC_USER_ID", "ALL");
+            map.put("TENANT_ID", "ALL");
+            xml = gr.sendSoapReq(ah, map);
+            jsonObject = XmlUtil.xml2JSON(xml.getBytes());
+            String commonAbilityCnt = jsonObject.getJSONObject("result").getJSONArray("object")
+                    .getJSONObject(0).getString("ABILITY_CNT");
+
+            result = "{\"result\":{\"object\":[{\"commonProductCnt\":\""+ commonProductCnt +"\"," +
+                    "\"commonDeviceCnt\":\""+ commonDeviceCnt +"\","+
+                    "\"commonAppCnt\":\""+ commonAppCnt +"\","+
+                    "\"commonAbilityCnt\":\""+ commonAbilityCnt +"\""+
+                    "}]}}";
+        }else {
+            int count = this.count3++;
+            result = "{\"result\":{\"object\":[{\"commonProductCnt\":\""+ (int)(count+Math.random()*1000) +"\"," +
+                    "\"commonDeviceCnt\":\""+ (int)(count+Math.random()*1000) +"\","+
+                    "\"commonAppCnt\":\""+ (int)(count+Math.random()*1000) +"\","+
+                    "\"commonAbilityCnt\":\""+ (int)(count+Math.random()*1000) +"\""+
+                    "}]}}";
         }
-
-        soapClient = new SoapClient("commonDeviceCnt",
-                "http://10.3.6.40:9773/services/dw_admin?wsdl");
-        patameterMap = new HashMap<String, String>(3);
-        patameterMap.put("VC_USER_ID", "ALL");
-        patameterMap.put("TENANT_ID", "ALL");
-        soapRequestData = soapClient.buildRequestData(patameterMap);
-        System.out.println(soapRequestData);
-        try {
-            //String soapResponseData = soapClient.invoke(patameterMap);
-            //result = XmlUtil.xml2JSON(soapResponseData.getBytes()).toJSONString();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        soapClient = new SoapClient("commonAppCnt",
-                "http://10.3.6.40:9773/services/dw_admin?wsdl");
-        patameterMap = new HashMap<String, String>(3);
-        patameterMap.put("VC_USER_ID", "ALL");
-        patameterMap.put("TENANT_ID", "ALL");
-        soapRequestData = soapClient.buildRequestData(patameterMap);
-        System.out.println(soapRequestData);
-        try {
-            //String soapResponseData = soapClient.invoke(patameterMap);
-            //result = XmlUtil.xml2JSON(soapResponseData.getBytes()).toJSONString();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        soapClient = new SoapClient("commonAbilityCnt",
-                "http://10.3.6.40:9773/services/dw_admin?wsdl");
-        patameterMap = new HashMap<String, String>(3);
-        patameterMap.put("VC_USER_ID", "ALL");
-        patameterMap.put("TENANT_ID", "ALL");
-        soapRequestData = soapClient.buildRequestData(patameterMap);
-        System.out.println(soapRequestData);
-        try {
-            //String soapResponseData = soapClient.invoke(patameterMap);
-            //result = XmlUtil.xml2JSON(soapResponseData.getBytes()).toJSONString();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        int count = this.count3++;
-        result = "{\"result\":{\"object\":[{\"commonProductCnt\":\""+ (int)(count+Math.random()*1000) +"\"," +
-                "\"commonDeviceCnt\":\""+ (int)(count+Math.random()*1000) +"\","+
-                "\"commonAppCnt\":\""+ (int)(count+Math.random()*1000) +"\","+
-                "\"commonAbilityCnt\":\""+ (int)(count+Math.random()*1000) +"\""+
-                "}]}}";
-
         return result;
     }
 
     @RequestMapping("/onlineRate")
     @ResponseBody
-    public String onlineRate(){
-        SoapClient soapClient = new SoapClient("commonDeviceCnt",
-                "http://10.3.6.40:9773/services/dw_admin?wsdl");
-        Map<String, String> patameterMap = new HashMap<String, String>(2);
-        patameterMap.put("VC_USER_ID", "ALL");
-        patameterMap.put("TENANT_ID", "ALL");
-
-        String soapRequestData = soapClient.buildRequestData(patameterMap);
-        System.out.println(soapRequestData);
+    public String onlineRate() throws Exception {
         String result = null;
-        try {
-            //String soapResponseData = soapClient.invoke(patameterMap);
-            //result = XmlUtil.xml2JSON(soapResponseData.getBytes()).toJSONString();
-        } catch (Exception e) {
-            e.printStackTrace();
+        if(!mockData) {
+            GeneralRequestImpl gr = new GeneralRequestImpl();
+            AppHeader ah = new AppHeader();
+            ah.setAppId(appId);
+            ah.setAppKey(appKey);
+            ah.setAbilityCode("commonDeviceCnt");
+            Map<String, String> map = new HashMap<String, String>();
+            map.put("USER_ID", "ALL");
+            map.put("TENANT_ID", "ALL");
+            String xml = gr.sendSoapReq(ah, map);
+            JSONObject jsonObject = XmlUtil.xml2JSON(xml.getBytes());
+            int ONLINE_DEVICE_CNT = Integer.parseInt(jsonObject.getJSONObject("result").getJSONArray("object")
+                    .getJSONObject(0).getString("ONLINE_DEVICE_CNT"));
+            int OFFLINE_DEVICE_CNT = Integer.parseInt(jsonObject.getJSONObject("result").getJSONArray("object")
+                    .getJSONObject(0).getString("OFFLINE_DEVICE_CNT"));
+            double onlineRate = ONLINE_DEVICE_CNT/(ONLINE_DEVICE_CNT + OFFLINE_DEVICE_CNT);
+            result = "{\"result\":{\"object\":[{\"onlineRate\":\""+ onlineRate +"\"}]}}";
+        }else {
+            double onlineRate = Math.random();
+            result = "{\"result\":{\"object\":[{\"onlineRate\":\""+ onlineRate +"\"}]}}";
         }
-
-        double onlineRate = Math.random();
-        result = "{\"result\":{\"object\":[{\"onlineRate\":\""+ onlineRate +"\"}]}}";
-
         return result;
     }
 
     @RequestMapping("/successRate")
     @ResponseBody
-    public String successRate(){
-        SoapClient soapClient = new SoapClient("commonAbilityCallCnt",
-                "http://10.3.6.40:9773/services/dw_admin?wsdl");
-        Map<String, String> patameterMap = new HashMap<String, String>(2);
-        patameterMap.put("VC_USER_ID", "ALL");
-        patameterMap.put("TENANT_ID", "ALL");
-
-        String soapRequestData = soapClient.buildRequestData(patameterMap);
-        System.out.println(soapRequestData);
+    public String successRate() throws Exception {
         String result = null;
-        try {
-            //String soapResponseData = soapClient.invoke(patameterMap);
-            //result = XmlUtil.xml2JSON(soapResponseData.getBytes()).toJSONString();
-        } catch (Exception e) {
-            e.printStackTrace();
+        if(!mockData) {
+            GeneralRequestImpl gr = new GeneralRequestImpl();
+            AppHeader ah = new AppHeader();
+            ah.setAppId(appId);
+            ah.setAppKey(appKey);
+            ah.setAbilityCode("commonAbilityCallCnt");
+            Map<String, String> map = new HashMap<String, String>();
+            map.put("VC_USER_ID", "ALL");
+            map.put("TENANT_ID", "ALL");
+            String xml = gr.sendSoapReq(ah, map);
+            JSONObject jsonObject = XmlUtil.xml2JSON(xml.getBytes());
+
+            int ABILITY_CALL_CNT = Integer.parseInt(jsonObject.getJSONObject("result").getJSONArray("object")
+                    .getJSONObject(0).getString("ABILITY_CALL_CNT"));
+            int SUCCESS_CALL_CNT = (int)Math.random()* ABILITY_CALL_CNT;
+//            int SUCCESS_CALL_CNT = Integer.parseInt(jsonObject.getJSONObject("result").getJSONArray("object")
+//                    .getJSONObject(0).getString("ONLINE_DEVICE_CNT"));
+            double successRate = SUCCESS_CALL_CNT/ABILITY_CALL_CNT;
+            result = "{\"result\":{\"object\":[{\"onlineRate\":\""+ successRate +"\"}]}}";
+        }else {
+            double successRate = Math.random();
+            result = "{\"result\":{\"object\":[{\"successRate\":\""+ successRate +"\"}]}}";
         }
-
-        double successRate = Math.random();
-        result = "{\"result\":{\"object\":[{\"successRate\":\""+ successRate +"\"}]}}";
-
         return result;
     }
 
@@ -391,6 +397,7 @@ public class ShowController {
         result.append("]}}");
         return result.toString();
     }
+
 
     /**
      * 设备数量每日趋势
