@@ -116,10 +116,10 @@ public class ShowController {
             map.put("TENANT_ID", "ALL");
             xml = gr.sendSoapReq(ah, map);
             jsonObject = XmlUtil.xml2JSON(xml.getBytes());
-            String commonDeviceCnt = jsonObject.getJSONObject("result").getJSONArray("object")
-                    .getJSONObject(0).getString("ONLINE_DEVICE_CNT")
-                    + jsonObject.getJSONObject("result").getJSONArray("object")
-                    .getJSONObject(0).getString("OFFLINE_DEVICE_CNT");
+            int commonDeviceCnt = Integer.parseInt(jsonObject.getJSONObject("result").getJSONArray("object")
+                    .getJSONObject(0).getString("ONLINE_DEVICE_CNT"))
+                    + Integer.parseInt(jsonObject.getJSONObject("result").getJSONArray("object")
+                    .getJSONObject(0).getString("OFFLINE_DEVICE_CNT"));
 
             gr = new GeneralRequestImpl();
             ah = new AppHeader();
