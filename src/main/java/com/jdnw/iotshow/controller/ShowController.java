@@ -50,4 +50,28 @@ public class ShowController {
         }
         return result;
     }
+    @RequestMapping("/commonSgnlCntByDay")
+    @ResponseBody
+    public String commonSgnlCntByDay(){
+        SoapClient soapClient = new SoapClient("commonSgnlCntByDay",
+                "http://10.3.6.40:9773/services/dw_admin?wsdl");
+        Map<String, String> patameterMap = new HashMap<String, String>(2);
+        patameterMap.put("USER_ID", "ALL");
+        patameterMap.put("TENANT_ID", "ALL");
+        patameterMap.put("START", "20171007");
+        patameterMap.put("END", "20171027");
+        patameterMap.put("DEVICE_ID", "ALL");
+
+        String soapRequestData = soapClient.buildRequestData(patameterMap);
+        System.out.println(soapRequestData);
+        String result = null;
+        try {
+            String soapResponseData = soapClient.invoke(patameterMap);
+            result = XmlUtil.xml2JSON(soapResponseData.getBytes()).toJSONString();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
+
 }

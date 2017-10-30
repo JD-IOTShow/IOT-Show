@@ -59,26 +59,26 @@ function createPie() {
             }
         },
         series: [{
-                type: 'pie',
-                radius: ['90%', '93.5%'], //图表内圈占整个div的比例
-                silent: true,
-                label: {
-                    normal: {
-                        show: false,
-                    }
-                },
-                data: [{
-                    value: .5,
-                    itemStyle: {
-                        normal: {
-                            color: '#adadad',
-                            opacity: .2
-                        }
-                    }
-                }],
-
-                animation: false
+            type: 'pie',
+            radius: ['90%', '93.5%'], //图表内圈占整个div的比例
+            silent: true,
+            label: {
+                normal: {
+                    show: false,
+                }
             },
+            data: [{
+                value: .5,
+                itemStyle: {
+                    normal: {
+                        color: '#adadad',
+                        opacity: .2
+                    }
+                }
+            }],
+
+            animation: false
+        },
 
             {
                 name: 'main',
@@ -247,7 +247,7 @@ function createActivityBar() {
 
 function createCallTrendLine() {
 
-		function getActivityData() {
+    function getActivityData() {
         var appusage = ['48', '43', '41', '40', '24', '53'];
         var k = Math.round(Math.random() * 100);
         appusage.push(k);
@@ -364,8 +364,8 @@ function createCallTrendLine() {
         //每秒刷新一次跃度排行
         callTrendChart.setOption({
             series: [{
-            	data: getActivityData()
-        		}]
+                data: getActivityData()
+            }]
         });
         getActivityData();
     }, 1000);
@@ -373,12 +373,18 @@ function createCallTrendLine() {
 }
 
 function createDataTrendLine() {
-
-		function getActivityData() {
+    function getActivityData() {
         var appusage = [10, 52, 60, 34, 90, 30, 20, 45, 88, 16, 54, 55, 66, 68, 48, 36, 25, 75, 48];
         var k = Math.round(Math.random() * 100);
         appusage.push(k);
         return appusage;
+    }
+    function getNewData() {
+        var value;
+        $.post("127.0.0.1:8000",function(data){
+
+            },
+            "json");
     }
 
     var option = {
@@ -400,7 +406,7 @@ function createDataTrendLine() {
             type: 'category',
             show: true,
             // offset: -5,
-            data: [],
+            data: [10, 52, 60, 34, 90, 30, 20, 45, 88, 16, 54, 55, 66, 68, 48, 36, 25, 75, 48, 50],
             axisTick: { show: false },
             axisLine: { //坐标轴线
                 lineStyle: {
@@ -450,29 +456,33 @@ function createDataTrendLine() {
         //每秒刷新一次跃度排行
         dataTrendChart.setOption({
             series: [{
-            	data: getActivityData()
-        		}]
+                data: getActivityData()
+            }],
+            xAxis:[{
+                data:[10, 52, 60, 34, 90, 30, 20, 45, 88, 16, 54, 55, 66, 68, 48, 36, 25, 75, 48, 50]
+            }]
+
         });
         getActivityData();
-    }, 1000);
+    }, 10000);
     dataTrendChart.setOption(option);
 }
 
 //左边产品总数定时变换
 function changeUlnum(){
-	var arr = [];
-        while (arr.length < 4) {
-            var i = arr.length;
-            var k = Math.round(Math.random() * 100);
-            //if(!json[k]){
-            //  json[k]=true;
-            arr.push(k);
-            //}
-        }
-  for(var i in arr){
-  	$('.data-list').find('li').eq(i).find('.num').text(arr[i]);
-  }
+    var arr = [];
+    while (arr.length < 4) {
+        var i = arr.length;
+        var k = Math.round(Math.random() * 100);
+        //if(!json[k]){
+        //  json[k]=true;
+        arr.push(k);
+        //}
+    }
+    for(var i in arr){
+        $('.data-list').find('li').eq(i).find('.num').text(arr[i]);
+    }
 }
 setInterval(function() {
-        changeUlnum();
-    }, 1000);
+    changeUlnum();
+}, 1000);
