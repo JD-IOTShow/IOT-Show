@@ -25,8 +25,8 @@ import java.util.Map;
 @Controller
 public class ShowController {
     private boolean mockData = true;
-    private String appId = "68";
-    private String appKey = "3ydhy5o352sH1u0";
+    private String appId = "122";
+    private String appKey = "1715vK65u6d3aQ8";
 
     private int count1 = 135095;
     private int count2 = 268070;
@@ -165,51 +165,59 @@ public class ShowController {
 
     @RequestMapping("/onlineRate")
     @ResponseBody
-    public String onlineRate(){
-        SoapClient soapClient = new SoapClient("commonDeviceCnt",
-                "http://10.3.6.40:9773/services/dw_admin?wsdl");
-        Map<String, String> patameterMap = new HashMap<String, String>(2);
-        patameterMap.put("VC_USER_ID", "ALL");
-        patameterMap.put("TENANT_ID", "ALL");
-
-        String soapRequestData = soapClient.buildRequestData(patameterMap);
-        System.out.println(soapRequestData);
+    public String onlineRate() throws Exception {
         String result = null;
-        try {
-            //String soapResponseData = soapClient.invoke(patameterMap);
-            //result = XmlUtil.xml2JSON(soapResponseData.getBytes()).toJSONString();
-        } catch (Exception e) {
-            e.printStackTrace();
+        if(!mockData) {
+            GeneralRequestImpl gr = new GeneralRequestImpl();
+            AppHeader ah = new AppHeader();
+            ah.setAppId(appId);
+            ah.setAppKey(appKey);
+            ah.setAbilityCode("commonDeviceCnt");
+            Map<String, String> map = new HashMap<String, String>();
+            map.put("USER_ID", "ALL");
+            map.put("TENANT_ID", "ALL");
+            String xml = gr.sendSoapReq(ah, map);
+            JSONObject jsonObject = XmlUtil.xml2JSON(xml.getBytes());
+            int ONLINE_DEVICE_CNT = Integer.parseInt(jsonObject.getJSONObject("result").getJSONArray("object")
+                    .getJSONObject(0).getString("ONLINE_DEVICE_CNT"));
+            int OFFLINE_DEVICE_CNT = Integer.parseInt(jsonObject.getJSONObject("result").getJSONArray("object")
+                    .getJSONObject(0).getString("OFFLINE_DEVICE_CNT"));
+            double onlineRate = ONLINE_DEVICE_CNT/(ONLINE_DEVICE_CNT + OFFLINE_DEVICE_CNT);
+            result = "{\"result\":{\"object\":[{\"onlineRate\":\""+ onlineRate +"\"}]}}";
+        }else {
+            double onlineRate = Math.random();
+            result = "{\"result\":{\"object\":[{\"onlineRate\":\""+ onlineRate +"\"}]}}";
         }
-
-        double onlineRate = Math.random();
-        result = "{\"result\":{\"object\":[{\"onlineRate\":\""+ onlineRate +"\"}]}}";
-
         return result;
     }
 
     @RequestMapping("/successRate")
     @ResponseBody
-    public String successRate(){
-        SoapClient soapClient = new SoapClient("commonAbilityCallCnt",
-                "http://10.3.6.40:9773/services/dw_admin?wsdl");
-        Map<String, String> patameterMap = new HashMap<String, String>(2);
-        patameterMap.put("VC_USER_ID", "ALL");
-        patameterMap.put("TENANT_ID", "ALL");
-
-        String soapRequestData = soapClient.buildRequestData(patameterMap);
-        System.out.println(soapRequestData);
+    public String successRate() throws Exception {
         String result = null;
-        try {
-            //String soapResponseData = soapClient.invoke(patameterMap);
-            //result = XmlUtil.xml2JSON(soapResponseData.getBytes()).toJSONString();
-        } catch (Exception e) {
-            e.printStackTrace();
+        if(!mockData) {
+            GeneralRequestImpl gr = new GeneralRequestImpl();
+            AppHeader ah = new AppHeader();
+            ah.setAppId(appId);
+            ah.setAppKey(appKey);
+            ah.setAbilityCode("commonAbilityCallCnt");
+            Map<String, String> map = new HashMap<String, String>();
+            map.put("VC_USER_ID", "ALL");
+            map.put("TENANT_ID", "ALL");
+            String xml = gr.sendSoapReq(ah, map);
+            JSONObject jsonObject = XmlUtil.xml2JSON(xml.getBytes());
+
+            int ABILITY_CALL_CNT = Integer.parseInt(jsonObject.getJSONObject("result").getJSONArray("object")
+                    .getJSONObject(0).getString("ABILITY_CALL_CNT"));
+            int SUCCESS_CALL_CNT = (int)Math.random()* ABILITY_CALL_CNT;
+//            int SUCCESS_CALL_CNT = Integer.parseInt(jsonObject.getJSONObject("result").getJSONArray("object")
+//                    .getJSONObject(0).getString("ONLINE_DEVICE_CNT"));
+            double successRate = SUCCESS_CALL_CNT/ABILITY_CALL_CNT;
+            result = "{\"result\":{\"object\":[{\"onlineRate\":\""+ successRate +"\"}]}}";
+        }else {
+            double successRate = Math.random();
+            result = "{\"result\":{\"object\":[{\"successRate\":\""+ successRate +"\"}]}}";
         }
-
-        double successRate = Math.random();
-        result = "{\"result\":{\"object\":[{\"successRate\":\""+ successRate +"\"}]}}";
-
         return result;
     }
 

@@ -97,18 +97,19 @@ public class SoapClient {
         AppHeader ah=new AppHeader();
         ah.setAppId("122"); // 应用ID
         ah.setAppKey("1715vK65u6d3aQ8"); //应用KEY
-        ah.setAbilityCode("commonProductCnt");//能力code
+        ah.setAbilityCode("commonAbilityCallCnt");//能力code
         Map<String, String> map=new HashMap<String, String>();
         //查询参数
-        map.put("USER_ID","ALL");
+        map.put("VC_USER_ID","ALL");
+        //map.put("USER_ID","ALL");
         map.put("TENANT_ID","ALL");
-        map.put("DATE_CD","20171030");
+        //map.put("DATE_CD","20171030");
         String xml=gr.sendSoapReq(ah, map);
         System.out.println(xml);
         System.out.println("***************************************************************************************************");
         JSONObject json = XmlUtil.xml2JSON(xml.getBytes());
         System.out.println(json.toJSONString());
-        String value = json.getJSONObject("result").getJSONArray("object").getJSONObject(0).getString("PRODUCT_CNT");
+        String value = json.getJSONObject("result").getJSONArray("object").getJSONObject(0).getString("ABILITY_CNT");
         System.out.println(value);
 
 //        SoapClient soapClient = new SoapClient("commonDeviceCityCnt",
