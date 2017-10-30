@@ -3,7 +3,6 @@ package com.jdnw.iotshow.util;
 import com.alibaba.fastjson.JSONObject;
 import org.jdom2.Element;
 import org.jdom2.JDOMException;
-import org.jdom2.Namespace;
 import org.jdom2.input.SAXBuilder;
 
 import java.io.ByteArrayInputStream;
