@@ -108,6 +108,8 @@ public class SoapClient {
         System.out.println("***************************************************************************************************");
         JSONObject json = XmlUtil.xml2JSON(xml.getBytes());
         System.out.println(json.toJSONString());
+        String value = json.getJSONObject("result").getJSONArray("object").getJSONObject(0).getString("PRODUCT_CNT");
+        System.out.println(value);
 
 //        SoapClient soapClient = new SoapClient("commonDeviceCityCnt",
 //                "http://10.3.6.40:9773/services/dw_admin?wsdl");
