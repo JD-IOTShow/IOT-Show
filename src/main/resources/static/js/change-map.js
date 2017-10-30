@@ -21,7 +21,7 @@ $(function() {
             handleHeatMap();
         }
         //$('.tab-header .active').removeClass('active').siblings().addClass('active');
-    }, 20000);
+    }, 200000);
     timer_array.push(timer);
     //hover事件完成悬停
     $('.tab-modual').hover(function() {
@@ -39,7 +39,7 @@ $(function() {
                 handleHeatMap();
             }
             //$('.tab-header .active').removeClass('active').siblings().addClass('active');
-        }, 20000);
+        }, 200000);
         timer_array.push(timer);
     })
 
@@ -55,7 +55,7 @@ function handleHeatMap() {
 }
 
 $(document).ready(function(){
-    setInterval(handleHeatMap,5000);
+    setInterval(handleHeatMap,50000);
 });
 
 var mapChart = echarts.init(document.getElementById('mapRmodynamic'));
@@ -497,5 +497,5 @@ function handleTransportMap() {
 }
 
 $(document).ready(function(){
-    setInterval(handleTransportMap,5000);
+    setInterval(handleTransportMap,500000);
 });

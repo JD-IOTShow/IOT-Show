@@ -1,3 +1,4 @@
+/*
 package com.jdnw.iotshow.redis;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
@@ -20,20 +21,24 @@ import java.util.HashMap;
 import java.util.Map;
 
 
+*/
 /**
  * AUTHOR: zxy
  * com.jdnw.iotshow.redis
  * DATE: 2017/10/25
  * TIME: 17:34
- **/
+ **//*
+
 @Configuration
 @EnableCaching // 启用缓存，这个注解很重要；
 public class RedisCacheConfig  extends CachingConfigurerSupport {
-    /**
+    */
+/**
      * 生成key的策略
      *
      * @return
-     */
+     *//*
+
     @Bean
     public KeyGenerator keyGenerator() {
         return new KeyGenerator() {
@@ -50,12 +55,14 @@ public class RedisCacheConfig  extends CachingConfigurerSupport {
         };
     }
 
-    /**
+    */
+/**
      * 管理缓存
      *
      * @param redisTemplate
      * @return
-     */
+     *//*
+
     @SuppressWarnings("rawtypes")
     @Bean
     public CacheManager cacheManager(RedisTemplate redisTemplate) {
@@ -69,11 +76,13 @@ public class RedisCacheConfig  extends CachingConfigurerSupport {
         return rcm;
     }
 
-    /**
+    */
+/**
      * RedisTemplate配置
      * @param factory
      * @return
-     */
+     *//*
+
     @Bean
     public RedisTemplate<String, String> redisTemplate(RedisConnectionFactory factory) {
         StringRedisTemplate template = new StringRedisTemplate(factory);
@@ -87,3 +96,4 @@ public class RedisCacheConfig  extends CachingConfigurerSupport {
         return template;
     }
 }
+*/
