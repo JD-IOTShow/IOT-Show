@@ -185,11 +185,11 @@
     startTimer: function() {
       var _this = this;
       var time = 1;
-      clearInterval(this.timer);
-      this.timer = setInterval(function() {
+      //clearInterval(this.timer);
+      //this.timer = setInterval(function() {
         // increase/decrease seconds
-        if(time<_this.initDate.length){
-          dataArr = _this.initDate[time].split("/");
+        //if(time<_this.initDate.length){
+          dataArr = _this.initDate.shift().split("/");
           _this.seconds = dataArr[2];
           _this.minutes = dataArr[1];
           _this.hours = dataArr[0];
@@ -199,8 +199,8 @@
         _this.increaseDigit(_this.options.minutes,_this.minutes);
         _this.increaseDigit(_this.options.hours,_this.hours);
       
-        }
-      },2000);
+        //}
+      //},2000);
     },
 
     /**
