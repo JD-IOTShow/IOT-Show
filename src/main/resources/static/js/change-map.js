@@ -206,6 +206,12 @@ mapChart.on('click', function(params) {
     ///--console.log(params);
     $('#mapRmodynamic').removeClass('active');
     $('#sonMap').addClass('active');
+    while(timer_array_heat_map.length>0){
+        clearInterval(timer_array_heat_map.pop());
+    }
+    while(timer_array_transport_map.length>0){
+        clearInterval(timer_array_transport_map.pop());
+    }
     $.ajax({url:"heatMap",success:function(result) {
         var dataArray = $.parseJSON(result).result.object;
         var convertData = function() {
