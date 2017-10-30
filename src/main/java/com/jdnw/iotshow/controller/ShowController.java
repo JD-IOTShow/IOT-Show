@@ -116,10 +116,10 @@ public class ShowController {
             map.put("TENANT_ID", "ALL");
             xml = gr.sendSoapReq(ah, map);
             jsonObject = XmlUtil.xml2JSON(xml.getBytes());
-            String commonDeviceCnt = jsonObject.getJSONObject("result").getJSONArray("object")
-                    .getJSONObject(0).getString("ONLINE_DEVICE_CNT")
-                    + jsonObject.getJSONObject("result").getJSONArray("object")
-                    .getJSONObject(0).getString("OFFLINE_DEVICE_CNT");
+            int commonDeviceCnt = Integer.parseInt(jsonObject.getJSONObject("result").getJSONArray("object")
+                    .getJSONObject(0).getString("ONLINE_DEVICE_CNT"))
+                    + Integer.parseInt(jsonObject.getJSONObject("result").getJSONArray("object")
+                    .getJSONObject(0).getString("OFFLINE_DEVICE_CNT"));
 
             gr = new GeneralRequestImpl();
             ah = new AppHeader();
@@ -178,9 +178,9 @@ public class ShowController {
             map.put("TENANT_ID", "ALL");
             String xml = gr.sendSoapReq(ah, map);
             JSONObject jsonObject = XmlUtil.xml2JSON(xml.getBytes());
-            int ONLINE_DEVICE_CNT = Integer.parseInt(jsonObject.getJSONObject("result").getJSONArray("object")
+            double ONLINE_DEVICE_CNT = Double.parseDouble(jsonObject.getJSONObject("result").getJSONArray("object")
                     .getJSONObject(0).getString("ONLINE_DEVICE_CNT"));
-            int OFFLINE_DEVICE_CNT = Integer.parseInt(jsonObject.getJSONObject("result").getJSONArray("object")
+            double OFFLINE_DEVICE_CNT = Double.parseDouble(jsonObject.getJSONObject("result").getJSONArray("object")
                     .getJSONObject(0).getString("OFFLINE_DEVICE_CNT"));
             double onlineRate = ONLINE_DEVICE_CNT/(ONLINE_DEVICE_CNT + OFFLINE_DEVICE_CNT);
             result = "{\"result\":{\"object\":[{\"onlineRate\":\""+ onlineRate +"\"}]}}";
@@ -200,7 +200,7 @@ public class ShowController {
             AppHeader ah = new AppHeader();
             ah.setAppId(appId);
             ah.setAppKey(appKey);
-            ah.setAbilityCode("commonAbilityCallCnt");
+            ah.setAbilityCode("commonAbilityCallCntByDate");
             Map<String, String> map = new HashMap<String, String>();
             SimpleDateFormat formatter;
             formatter = new SimpleDateFormat ("yyyyMMdd");
@@ -211,12 +211,12 @@ public class ShowController {
             String xml = gr.sendSoapReq(ah, map);
             JSONObject jsonObject = XmlUtil.xml2JSON(xml.getBytes());
 
-            int ABILITY_CALL_CNT = Integer.parseInt(jsonObject.getJSONObject("result").getJSONArray("object")
+            double ABILITY_CALL_CNT = Double.parseDouble(jsonObject.getJSONObject("result").getJSONArray("object")
                     .getJSONObject(0).getString("ABILITY_CALL_CNT"));
-            int ABILITY_CALL_SUCC_CNT = Integer.parseInt(jsonObject.getJSONObject("result").getJSONArray("object")
+            double ABILITY_CALL_SUCC_CNT = Double.parseDouble(jsonObject.getJSONObject("result").getJSONArray("object")
                     .getJSONObject(0).getString("ABILITY_CALL_SUCC_CNT"));
             double successRate = ABILITY_CALL_SUCC_CNT/ABILITY_CALL_CNT;
-            result = "{\"result\":{\"object\":[{\"onlineRate\":\""+ successRate +"\"}]}}";
+            result = "{\"result\":{\"object\":[{\"successRate\":\""+ successRate +"\"}]}}";
         }else {
             double successRate = Math.random();
             result = "{\"result\":{\"object\":[{\"successRate\":\""+ successRate +"\"}]}}";

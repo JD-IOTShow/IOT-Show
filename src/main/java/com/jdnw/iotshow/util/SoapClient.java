@@ -97,13 +97,13 @@ public class SoapClient {
         AppHeader ah=new AppHeader();
         ah.setAppId("122"); // 应用ID
         ah.setAppKey("1715vK65u6d3aQ8"); //应用KEY
-        ah.setAbilityCode("commonAbilityCallCntByDate");//能力code
+        ah.setAbilityCode("commonDeviceCnt");//能力code
         Map<String, String> map=new HashMap<String, String>();
         //查询参数
-        map.put("VC_USER_ID","ALL");
-        //map.put("USER_ID","ALL");
+        //map.put("VC_USER_ID","ALL");
+        map.put("USER_ID","ALL");
         map.put("TENANT_ID","ALL");
-        map.put("DATE_CD","20171030");
+        //map.put("DATE_CD","20171030");
         String xml=gr.sendSoapReq(ah, map);
         System.out.println(xml);
         System.out.println("***************************************************************************************************");
