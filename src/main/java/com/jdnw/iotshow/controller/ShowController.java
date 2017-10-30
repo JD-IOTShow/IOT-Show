@@ -24,7 +24,7 @@ import java.util.Map;
  **/
 @Controller
 public class ShowController {
-    private boolean mockData = true;
+    private boolean mockData = false;
     private String appId = "122";
     private String appKey = "1715vK65u6d3aQ8";
 
@@ -125,7 +125,7 @@ public class ShowController {
             ah = new AppHeader();
             ah.setAppId(appId);
             ah.setAppKey(appKey);
-            ah.setAbilityCode("commonDeviceCnt");
+            ah.setAbilityCode("commonAppCnt");
             map = new HashMap<String, String>();
             map.put("VC_USER_ID", "ALL");
             map.put("TENANT_ID", "ALL");
@@ -138,7 +138,7 @@ public class ShowController {
             ah = new AppHeader();
             ah.setAppId(appId);
             ah.setAppKey(appKey);
-            ah.setAbilityCode("commonDeviceCnt");
+            ah.setAbilityCode("commonAbilityCnt");
             map = new HashMap<String, String>();
             map.put("VC_USER_ID", "ALL");
             map.put("TENANT_ID", "ALL");
@@ -202,6 +202,10 @@ public class ShowController {
             ah.setAppKey(appKey);
             ah.setAbilityCode("commonAbilityCallCnt");
             Map<String, String> map = new HashMap<String, String>();
+            SimpleDateFormat formatter;
+            formatter = new SimpleDateFormat ("yyyyMMdd");
+            String today = formatter.format(new Date());
+            map.put("DATE_CD", today);
             map.put("VC_USER_ID", "ALL");
             map.put("TENANT_ID", "ALL");
             String xml = gr.sendSoapReq(ah, map);
@@ -209,10 +213,9 @@ public class ShowController {
 
             int ABILITY_CALL_CNT = Integer.parseInt(jsonObject.getJSONObject("result").getJSONArray("object")
                     .getJSONObject(0).getString("ABILITY_CALL_CNT"));
-            int SUCCESS_CALL_CNT = (int)Math.random()* ABILITY_CALL_CNT;
-//            int SUCCESS_CALL_CNT = Integer.parseInt(jsonObject.getJSONObject("result").getJSONArray("object")
-//                    .getJSONObject(0).getString("ONLINE_DEVICE_CNT"));
-            double successRate = SUCCESS_CALL_CNT/ABILITY_CALL_CNT;
+            int ABILITY_CALL_SUCC_CNT = Integer.parseInt(jsonObject.getJSONObject("result").getJSONArray("object")
+                    .getJSONObject(0).getString("ABILITY_CALL_SUCC_CNT"));
+            double successRate = ABILITY_CALL_SUCC_CNT/ABILITY_CALL_CNT;
             result = "{\"result\":{\"object\":[{\"onlineRate\":\""+ successRate +"\"}]}}";
         }else {
             double successRate = Math.random();
@@ -228,24 +231,6 @@ public class ShowController {
         public CityData(String cityName, String coordinate, int deviceCount) {
             this.cityName = cityName;
             this.coordinate = coordinate;
-            this.deviceCount = deviceCount;
-        }
-        public String getCityName() {
-            return cityName;
-        }
-        public void setCityName(String cityName) {
-            this.cityName = cityName;
-        }
-        public String getCoordinate() {
-            return coordinate;
-        }
-        public void setCoordinate(String coordinate) {
-            this.coordinate = coordinate;
-        }
-        public int getDeviceCount() {
-            return deviceCount;
-        }
-        public void setDeviceCount(int deviceCount) {
             this.deviceCount = deviceCount;
         }
     }
@@ -314,7 +299,7 @@ public class ShowController {
         patameterMap.put("TENANT_ID", "ALL");
 
         String soapRequestData = soapClient.buildRequestData(patameterMap);
-        System.out.println(soapRequestData);
+        //System.out.println(soapRequestData);
         try {
             //String soapResponseData = soapClient.invoke(patameterMap);
             //result = XmlUtil.xml2JSON(soapResponseData.getBytes()).toJSONString();
@@ -360,7 +345,7 @@ public class ShowController {
         patameterMap.put("TENANT_ID", "ALL");
 
         String soapRequestData = soapClient.buildRequestData(patameterMap);
-        System.out.println(soapRequestData);
+        //System.out.println(soapRequestData);
         try {
             //String soapResponseData = soapClient.invoke(patameterMap);
             //result = XmlUtil.xml2JSON(soapResponseData.getBytes()).toJSONString();
