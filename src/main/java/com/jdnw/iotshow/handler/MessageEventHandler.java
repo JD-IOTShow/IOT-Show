@@ -47,8 +47,8 @@ public class MessageEventHandler {
         System.out.println("新链接"+client);
 
 
-        /*redisUtils.set("server","server");
-        System.out.println(redisUtils.get("server"));*/
+        redisUtils.set("server","server");
+        System.out.println(redisUtils.get("server"));
     }
 
     //添加@OnDisconnect事件，客户端断开连接时调用，刷新客户端信息
@@ -63,7 +63,7 @@ public class MessageEventHandler {
     //消息接收入口，当接收到消息后，查找发送目标客户端，并且向该客户端发送消息，且给自己发送消息
     @OnEvent(value = "messageevent")
     public void onEvent(SocketIOClient client, AckRequest request, MessageInfo data)
-    {
+        {
 
         /*String targetClientId = data.getTargetClientId();
 
@@ -77,10 +77,10 @@ public class MessageEventHandler {
         client.sendEvent("messageevent", sendData);
         server.getClient(uuid).sendEvent("messageevent", sendData);*/
 
-    }
-    @RequestMapping("/show")
-    public void sendMessage2All(){
-        Collection<SocketIOClient> clients = server.getAllClients();
+        }
+        @RequestMapping("/show")
+        public void sendMessage2All(){
+            Collection<SocketIOClient> clients = server.getAllClients();
         Iterator<SocketIOClient> it = clients.iterator();
         while (it.hasNext()) {
             SocketIOClient i = (SocketIOClient) it.next();
