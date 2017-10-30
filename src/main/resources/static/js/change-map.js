@@ -1,3 +1,5 @@
+var timer_array_transport_map = [];
+var timer_array_heat_map = [];
 $(function() {
     //生成两个地图
     handleHeatMap();
@@ -21,7 +23,7 @@ $(function() {
             handleHeatMap();
         }
         //$('.tab-header .active').removeClass('active').siblings().addClass('active');
-    }, 200000);
+    }, 20000);
     timer_array.push(timer);
     //hover事件完成悬停
     $('.tab-modual').hover(function() {
@@ -52,11 +54,16 @@ function handleHeatMap() {
         $('.rmodynamic').addClass('active');
         $('.transmission').removeClass('active');
     }});
+    while(timer_array_transport_map.length>0){
+        clearInterval(timer_array_transport_map.pop());
+    }
+    var timer = setInterval(handleHeatMap,4000);
+    timer_array_heat_map.push(timer);
 }
 
-$(document).ready(function(){
-    setInterval(handleHeatMap,50000);
-});
+// $(document).ready(function(){
+//     setInterval(handleHeatMap,5000);
+// });
 
 var mapChart = echarts.init(document.getElementById('mapRmodynamic'));
 //设备热力图
@@ -494,8 +501,13 @@ function handleTransportMap() {
         $('.rmodynamic').removeClass('active');
         $('.transmission').addClass('active');
     }});
+    while(timer_array_heat_map.length>0){
+        clearInterval(timer_array_heat_map.pop());
+    }
+    var timer = setInterval(handleTransportMap,4000);
+    timer_array_transport_map.push(timer);
 }
 
-$(document).ready(function(){
-    setInterval(handleTransportMap,500000);
-});
+// $(document).ready(function(){
+//     setInterval(handleTransportMap,500000);
+// });
