@@ -57,7 +57,14 @@ function handleHeatMap() {
     while(timer_array_transport_map.length>0){
         clearInterval(timer_array_transport_map.pop());
     }
-    var timer = setInterval(handleHeatMap,4000);
+    var timer = setInterval(function () {
+        $.ajax({url:"heatMap",success:function(result){
+            var dataArray = $.parseJSON(result).result.object;
+            changeMap(dataArray);
+            $('.rmodynamic').addClass('active');
+            $('.transmission').removeClass('active');
+        }});
+    },4000);
     timer_array_heat_map.push(timer);
 }
 
@@ -504,7 +511,14 @@ function handleTransportMap() {
     while(timer_array_heat_map.length>0){
         clearInterval(timer_array_heat_map.pop());
     }
-    var timer = setInterval(handleTransportMap,4000);
+    var timer = setInterval(function () {
+        $.ajax({url:"transportMap",success:function(result){
+            var dataArray = $.parseJSON(result).result.object;
+            changeTransMap(dataArray);
+            $('.rmodynamic').removeClass('active');
+            $('.transmission').addClass('active');
+        }});
+    },4000);
     timer_array_transport_map.push(timer);
 }
 
