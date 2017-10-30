@@ -6,7 +6,6 @@ import com.corundumstudio.socketio.SocketIOServer;
 import com.corundumstudio.socketio.annotation.OnConnect;
 import com.corundumstudio.socketio.annotation.OnDisconnect;
 import com.corundumstudio.socketio.annotation.OnEvent;
-import com.jdnw.iotshow.redis.RedisUtils;
 import com.jdnw.iotshow.vo.MessageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -30,8 +29,8 @@ import java.util.List;
 @Controller
 public class MessageEventHandler {
     private final SocketIOServer server;
-    @Autowired
-    private RedisUtils redisUtils;
+    //@Autowired
+    //private RedisUtils redisUtils;
 
 
     @Autowired
@@ -47,8 +46,8 @@ public class MessageEventHandler {
         System.out.println("新链接"+client);
 
 
-        redisUtils.set("server","server");
-        System.out.println(redisUtils.get("server"));
+        //redisUtils.set("server","server");
+        //System.out.println(redisUtils.get("server"));
     }
 
     //添加@OnDisconnect事件，客户端断开连接时调用，刷新客户端信息
