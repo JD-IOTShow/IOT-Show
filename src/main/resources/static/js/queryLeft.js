@@ -14,7 +14,7 @@ var turnover2 = $('.dowebok2').flipTimer({
 $(document).ready(function(){
     setInterval(function(){
         $.ajax({url:"queryPlatStatusAll",success:function(result){
-            var str = $.parseJSON(result).result.object[0].sgnlCnt;
+            var str = $.parseJSON(result).result.object[0].SGNL_CNT;
             var array = [];
             var i=str.length-1;
             var j = 9;
