@@ -1,132 +1,4 @@
-//判断是多大的屏幕
-var winTimes = 1;
-// var onlineChart = echarts.init(document.getElementById('online-rate'));
-// var succeedChart = echarts.init(document.getElementById('succeed-rate'));
-var activityChart = echarts.init(document.getElementById('activity-rate'));
-var callTrendChart = echarts.init(document.getElementById('call-rate-trend'));
-var dataTrendChart = echarts.init(document.getElementById('data-rate-trend'));
-
-
-$(document).ready(function() {
-    //生成各个图表
-    // createPie();
-    createActivityBar();
-    createCallTrendLine();
-    createDataTrendLine();
-
-    window.addEventListener("resize", function() {
-        //onlineChart.resize();
-        //succeedChart.resize();
-        activityChart.resize();
-        callTrendChart.resize();
-        dataTrendChart.resize();
-    });
-});
-
-// function createPie() {
-//     var percent = 0.7;
-//
-//
-//     function getData(color) {
-//         return [{
-//             value: percent,
-//             itemStyle: {
-//                 normal: {
-//                     color: color
-//                 }
-//             }
-//         }, {
-//             value: 1 - percent,
-//             itemStyle: {
-//                 normal: {
-//                     color: 'transparent'
-//                 }
-//             }
-//         }];
-//     }
-//
-//     var onlineOption = {
-//         backgroundColor: 'transparent',
-//
-//         title: {
-//             text: (percent * 100) + '%',
-//             x: 'center',
-//             y: 'center',
-//             textStyle: {
-//                 color: '#b4b7bb',
-//                 fontWeight: '100',
-//                 fontSize: 34,
-//             }
-//         },
-//         series: [{
-//                 type: 'pie',
-//                 radius: ['90%', '93.5%'], //图表内圈占整个div的比例
-//                 silent: true,
-//                 label: {
-//                     normal: {
-//                         show: false,
-//                     }
-//                 },
-//                 data: [{
-//                     value: .5,
-//                     itemStyle: {
-//                         normal: {
-//                             color: '#adadad',
-//                             opacity: .2
-//                         }
-//                     }
-//                 }],
-//
-//                 animation: false
-//             },
-//
-//             {
-//                 name: 'main',
-//                 type: 'pie',
-//                 radius: ['97%', '99.5%'], //图表外圈占整个div的比例
-//                 label: {
-//                     normal: {
-//                         show: false,
-//                     }
-//                 },
-//                 animationEasingUpdate: 'cubicInOut',
-//                 animationDurationUpdate: 500
-//             }
-//         ]
-//     };
-//     onlineChart.setOption(onlineOption);
-//     succeedChart.setOption(onlineOption);
-//
-//     setInterval(function() {
-//         percent = +Math.random();
-//         onlineChart.setOption({
-//             title: {
-//                 text: (percent * 100).toFixed(0) + '%'
-//             },
-//             series: [{
-//                 name: 'main',
-//                 data: getData('#e84161')
-//             }]
-//         });
-//     }, 1000);
-//
-//     setInterval(function() {
-//         percent = +Math.random();
-//         succeedChart.setOption({
-//             title: {
-//                 text: (percent * 100).toFixed(0) + '%'
-//             },
-//             series: [{
-//                 name: 'main',
-//                 data: getData('#38a7c2')
-//             }]
-//         });
-//     }, 1000);
-//}
-
-
-
-/*function createActivityBar() {
+function createActivityBar() {
 
     var arryX = [];
     var arryY = [];
@@ -141,13 +13,11 @@ $(document).ready(function() {
                     arryX.push(val.INT_CALL_CNT);
                     arryY.push(val.VC_APP_NAME);
                 });
-                //console.log(arryX);
-                //console.log(arryY);
             },"json"//设置了获取数据的类型，所以得到的数据格式为json类型的
         );
     }
 
-    /!*function getActivityData() {
+    /*function getActivityData() {
         var appusage_data = [];
         var appusage = ["智能家具", "雪亮工程", "LNG点供", "脚手架", "售电"];
         while (appusage_data.length < 5) {
@@ -160,10 +30,10 @@ $(document).ready(function() {
                 value: k
             });
             //}
-        }console.log(appusage_data);
+        }
         return appusage_data;
 
-    }*!/
+    }*/
 
     var option = {
         "tooltip": {
@@ -252,6 +122,7 @@ $(document).ready(function() {
     activityChart.setOption(option);
     setInterval(function() {
         //每秒刷新一次跃度排行
+        getNewData();
         activityChart.setOption({
             series: [{
                 "name": "总计",
@@ -265,7 +136,6 @@ $(document).ready(function() {
                 "data": arryY
             }]
         });
-        getNewData();
         //getActivityData();
     }, 1000);
 }
@@ -275,7 +145,6 @@ function createCallTrendLine() {
     var arryY = [];
     function getNewData() {
         var value;
-        console.log("进入方法")
         $.post("commonAblitiesCntByDay",function(data){
                 arryX = [];
                 arryY = [];
@@ -284,8 +153,6 @@ function createCallTrendLine() {
                     arryX.push(val.DATE_CD);
                     arryY.push(val.SGNL_CNT);
                 });
-                console.log(arryX);
-                console.log(arryY);
             },"json"//设置了获取数据的类型，所以得到的数据格式为json类型的
         );
     }
@@ -363,6 +230,7 @@ function createCallTrendLine() {
     };
     setInterval(function() {
         //每秒刷新一次跃度排行
+        getNewData();
         callTrendChart.setOption({
             series: [{
                 data: arryY
@@ -371,33 +239,30 @@ function createCallTrendLine() {
                 data: arryX
             }]
         });
-        getNewData();
         //getActivityData();
-    }, 1000000);
+    }, 1000);
     callTrendChart.setOption(option);
 }
 //设备数据量
 function createDataTrendLine() {
     var arryX = [];
     var arryY = [];
-    /!*function getActivityData() {
+    /*function getActivityData() {
         var appusage = [10, 52, 60, 34, 90, 30, 20, 45, 88, 16, 54, 55, 66, 68, 48, 36, 25, 75, 48];
         var k = Math.round(Math.random() * 100);
         appusage.push(k);
         return appusage;
-    }*!/
+    }*/
     function getNewData() {
         var value;
         $.post("commonSgnlCntByDay",function(data){
-            arryX = [];
-            arryY = [];
-            value = data.result.object;
+                arryX = [];
+                arryY = [];
+                value = data.result.object;
                 $.each(value,function (index,val) {
                     arryX.push(val.DATE_CD);
                     arryY.push(val.SGNL_CNT);
                 });
-                console.log(arryX);
-                console.log(arryY);
             },"json"//设置了获取数据的类型，所以得到的数据格式为json类型的
         );
     }
@@ -469,6 +334,7 @@ function createDataTrendLine() {
     };
     setInterval(function() {
         //每秒刷新一次跃度排行
+        getNewData();
         dataTrendChart.setOption({
             series: [{
                 data: arryY
@@ -478,27 +344,7 @@ function createDataTrendLine() {
             }]
 
         });
-        getNewData();
         //getActivityData();
-    }, 1000000);
+    }, 1000);
     dataTrendChart.setOption(option);
-}*/
-
-//左边产品总数定时变换
-function changeUlnum(){
-    var arr = [];
-    while (arr.length < 4) {
-        var i = arr.length;
-        var k = Math.round(Math.random() * 100);
-        //if(!json[k]){
-        //  json[k]=true;
-        arr.push(k);
-        //}
-    }
-    for(var i in arr){
-        $('.data-list').find('li').eq(i).find('.num').text(arr[i]);
-    }
 }
-// setInterval(function() {
-//         changeUlnum();
-//     }, 1000);
