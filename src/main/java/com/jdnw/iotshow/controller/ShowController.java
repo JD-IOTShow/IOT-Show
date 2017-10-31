@@ -337,49 +337,49 @@ public class ShowController {
 
     @RequestMapping("/heatMap")
     @ResponseBody
-    public String heatMap(){
-        SoapClient soapClient = new SoapClient("heatMap",
-                "http://10.3.6.40:9773/services/dw_admin?wsdl");
-        Map<String, String> patameterMap = new HashMap<String, String>(2);
-        patameterMap.put("VC_USER_ID", "ALL");
-        patameterMap.put("TENANT_ID", "ALL");
-
-        String soapRequestData = soapClient.buildRequestData(patameterMap);
-        //System.out.println(soapRequestData);
-        try {
-            //String soapResponseData = soapClient.invoke(patameterMap);
-            //result = XmlUtil.xml2JSON(soapResponseData.getBytes()).toJSONString();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
+    public String heatMap() throws Exception {
         StringBuffer result = new StringBuffer();
-        result.append("{\"result\":{\"object\":[");
-        for(int i=0; i<2; i++){
-            int indexSource = (int)(Math.random()*4);
-            CityData destination = this.transportDataDestination.get(indexSource);
-            result.append("{"
-                    +"\"cityName\":" + "\"" + destination.cityName + "\""
-                    +",\"coordinate\":" + "" + destination.coordinate + ""
-                    +",\"deviceCount\":" + "\"" + destination.deviceCount + "\""
-                    +"}"
-            );
-            result.append(",");
-        }
-        for(int j=0; j<30; j++){
-            int indexSource = (int)(Math.random()*40);
-            CityData source = this.transportDataSource.get(indexSource);
-            result.append("{"
-                    +"\"cityName\":" + "\"" + source.cityName + "\""
-                    +",\"coordinate\":" + "" + source.coordinate + ""
-                    +",\"deviceCount\":" + "\"" + source.deviceCount + "\""
-                +"}"
-            );
-            if(j!=29){
+        if(!mockData) {
+            GeneralRequestImpl gr = new GeneralRequestImpl();
+            AppHeader ah = new AppHeader();
+            ah.setAppId(appId);
+            ah.setAppKey(appKey);
+            ah.setAbilityCode("queryPlatStatusAll");
+            Map<String, String> map = new HashMap<String, String>();
+            SimpleDateFormat formatter;
+            formatter = new SimpleDateFormat ("yyyyMMdd");
+            String today = formatter.format(new Date());
+            map.put("DATE_CD", today);
+            String xml = gr.sendSoapReq(ah, map);
+            result.append(XmlUtil.xml2JSON(xml.getBytes()).toJSONString());
+        }else {
+            result.append("{\"result\":{\"object\":[");
+            for(int i=0; i<2; i++){
+                int indexSource = (int)(Math.random()*4);
+                CityData destination = this.transportDataDestination.get(indexSource);
+                result.append("{"
+                        +"\"cityName\":" + "\"" + destination.cityName + "\""
+                        +",\"coordinate\":" + "" + destination.coordinate + ""
+                        +",\"deviceCount\":" + "\"" + destination.deviceCount + "\""
+                        +"}"
+                );
                 result.append(",");
             }
+            for(int j=0; j<30; j++){
+                int indexSource = (int)(Math.random()*40);
+                CityData source = this.transportDataSource.get(indexSource);
+                result.append("{"
+                        +"\"cityName\":" + "\"" + source.cityName + "\""
+                        +",\"coordinate\":" + "" + source.coordinate + ""
+                        +",\"deviceCount\":" + "\"" + source.deviceCount + "\""
+                        +"}"
+                );
+                if(j!=29){
+                    result.append(",");
+                }
+            }
+            result.append("]}}");
         }
-        result.append("]}}");
         return result.toString();
     }
 
