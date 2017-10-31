@@ -23,7 +23,7 @@ $(function() {
             handleHeatMap();
         }
         //$('.tab-header .active').removeClass('active').siblings().addClass('active');
-    }, 15000);
+    }, 60000);
     timer_array.push(timer);
     //hover事件完成悬停
     $('.tab-modual').hover(function() {
@@ -41,7 +41,7 @@ $(function() {
                 handleHeatMap();
             }
             //$('.tab-header .active').removeClass('active').siblings().addClass('active');
-        }, 200000);
+        }, 20000);
         timer_array.push(timer);
     })
 
@@ -64,7 +64,7 @@ function handleHeatMap() {
             $('.rmodynamic').addClass('active');
             $('.transmission').removeClass('active');
         }});
-    },3000);
+    },20000);
     timer_array_heat_map.push(timer);
 }
 
@@ -524,7 +524,7 @@ function handleTransportMap() {
             $('.rmodynamic').removeClass('active');
             $('.transmission').addClass('active');
         }});
-    },3000);
+    },20000);
     timer_array_transport_map.push(timer);
 }
 
