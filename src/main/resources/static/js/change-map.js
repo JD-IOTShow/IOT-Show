@@ -456,7 +456,7 @@ function changeTransMap(dataArray) {
             coordinateSystem: 'geo',
             data: convertData(),
             symbolSize: function(val) {
-                return val[2] / 5;
+                return val[2] / 50000;
             },
             label: {
                 normal: {
