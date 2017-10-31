@@ -22,6 +22,14 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<java.version>1.8</java.version>
+
+		<docker.host>https://10.3.6.71:2376</docker.host>
+		<docker.certs>src/main/docker/cert/71</docker.certs>
+		<docker.repostory>jdnw.com:5000</docker.repostory>
+		<docker.registry.name>aep</docker.registry.name>
+		<docker.base.image>jdnw.com:5000/oneopen/jdk8:8.131</docker.base.image>
+		<etcd.uri>http://10.3.6.76:2379</etcd.uri>
+		<docker.image.prefix>iotshow</docker.image.prefix>
 	</properties>
 
 	<dependencies>
@@ -80,6 +88,7 @@
 	</dependencies>
 
 	<build>
+		<finalName>iotshow</finalName>
 		<plugins>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
@@ -92,6 +101,45 @@
 					<fork>true</fork>
 				</configuration>
 			</plugin>
+			<!-- tag::plugin[] -->
+			<plugin>
+				<groupId>com.spotify</groupId>
+				<artifactId>docker-maven-plugin</artifactId>
+				<version>0.4.13</version>
+				<configuration>
+					<dockerHost>${docker.host}</dockerHost>
+					<dockerCertPath>${docker.certs}</dockerCertPath>
+					<baseImage>${docker.base.image}</baseImage>
+					<imageName>${docker.repostory}/${docker.registry.name}/${project.build.finalName}</imageName>
+					<imageTags>
+						<imageTag>${project.version}</imageTag>
+						<imageTag>latest</imageTag>
+					</imageTags>
+					<env>
+						<ETCD_URI>${etcd.uri}</ETCD_URI>
+					</env>
+					<entryPoint> ["entryPoint"]</entryPoint>
+
+					<resources>
+						<resource>
+							<targetPath>/tmp</targetPath>
+							<directory>${project.build.directory}</directory>
+							<include>${project.build.finalName}.jar</include>
+						</resource>
+
+						<resource>
+							<targetPath>/usr/local/bin/</targetPath>
+							<directory>${project.basedir}/src/main/docker</directory>
+							<include>entryPoint</include>
+						</resource>
+					</resources>
+
+					<runs>
+						<run>chmod +x /usr/local/bin/entryPoint</run>
+					</runs>
+				</configuration>
+			</plugin>
+			<!-- end::plugin[] -->
 		</plugins>
 	</build>
 
