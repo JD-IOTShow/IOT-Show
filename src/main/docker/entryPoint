@@ -1,0 +1,9 @@
+#!/bin/sh
+
+mv /tmp/iotshow.jar /tmp/app.jar
+
+java -Djava.security.egd=file:/dev/urandom -jar /tmp/app.jar
+
+#startup tomcat in toml file
+/usr/local/bin/confd -watch -backend etcd -node $ETCD_URI
+

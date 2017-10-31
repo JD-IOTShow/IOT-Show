@@ -10,7 +10,7 @@ function createActivityBar() {
                 arryY = [];
                 value = data.result.object;
                 $.each(value,function (index,val) {
-                    arryX.push(val.INT_CALL_CNT);
+                    arryX.push(val.APP_CALL_CNT);
                     arryY.push(val.VC_APP_NAME);
                 });
             },"json"//设置了获取数据的类型，所以得到的数据格式为json类型的
@@ -151,18 +151,18 @@ function createCallTrendLine() {
                 value = data.result.object;
                 $.each(value,function (index,val) {
                     arryX.push(val.DATE_CD);
-                    arryY.push(val.SGNL_CNT);
+                    arryY.push(val.ABILITY_CALL_CNT);
                 });
             },"json"//设置了获取数据的类型，所以得到的数据格式为json类型的
         );
     }
 
-    function getActivityData() {
+    /*function getActivityData() {
         var appusage = ['48', '43', '41', '40', '24', '53'];
         var k = Math.round(Math.random() * 100);
         appusage.push(k);
         return appusage;
-    }
+    }*/
 
     var option = {
         backgroundColor: 'transparent',
@@ -218,8 +218,8 @@ function createCallTrendLine() {
             name: '能力调用量每日趋势',
             type: 'line',
             smooth: true,
-            symbolSize: 8 ** winTimes,
-            data: ['48', '43', '41', '40', '24', '53', '47'],
+            symbolSize: 8 * winTimes,
+            data: [],
             label: {
                 normal: {
                     show: false,
