@@ -51,6 +51,7 @@ public class RightController {
             map.put("TENANT_ID", "ALL");
             map.put("START", start);
             map.put("END", end);
+            map.put("DEVICE_ID", "ALL");
             String xml = gr.sendSoapReq(ah, map);
             result = XmlUtil.xml2JSON(xml.getBytes()).toJSONString();
             return result;
