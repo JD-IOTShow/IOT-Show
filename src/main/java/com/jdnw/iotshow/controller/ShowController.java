@@ -292,47 +292,72 @@ public class ShowController {
 
     @RequestMapping("/transportMap")
     @ResponseBody
-    public String transportMap(){
-        SoapClient soapClient = new SoapClient("transportMap",
-                "http://10.3.6.40:9773/services/dw_admin?wsdl");
-        Map<String, String> patameterMap = new HashMap<String, String>(2);
-        patameterMap.put("VC_USER_ID", "ALL");
-        patameterMap.put("TENANT_ID", "ALL");
-
-        String soapRequestData = soapClient.buildRequestData(patameterMap);
-        //System.out.println(soapRequestData);
-        try {
-            //String soapResponseData = soapClient.invoke(patameterMap);
-            //result = XmlUtil.xml2JSON(soapResponseData.getBytes()).toJSONString();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
+    public String transportMap() throws Exception {
         StringBuffer result = new StringBuffer();
-        result.append("{\"result\":{\"object\":[");
-        for(int i=0; i<2; i++){
-            int indexDestination = (int)(Math.random()*4);
-            CityData destination = this.transportDataDestination.get(indexDestination);
-            for(int j=0; j<20; j++){
-                int indexSource = (int)(Math.random()*40);
-                CityData source = this.transportDataSource.get(indexSource);
-                result.append("["
-                        +"{\"cityName\":" + "\"" + source.cityName + "\""
-                        +",\"coordinate\":" + "" + source.coordinate + ""
-                        +",\"deviceCount\":" + "\"" + source.deviceCount + "\""
+        if(!mockData) {
+            GeneralRequestImpl gr = new GeneralRequestImpl();
+            AppHeader ah = new AppHeader();
+            ah.setAppId(appId);
+            ah.setAppKey(appKey);
+            ah.setAbilityCode("commonCitySgnlCntByDay");
+            Map<String, String> map = new HashMap<String, String>();
+            map.put("USER_ID","ALL");
+            map.put("TENANT_ID","ALL");
+            SimpleDateFormat formatter;
+            formatter = new SimpleDateFormat ("yyyyMMdd");
+            String today = formatter.format(new Date());
+            map.put("DATE_CD", today);
+            map.put("DEVICE_ID","ALL");
+            map.put("PROVINCE_ID","ALL");
+            String xml = gr.sendSoapReq(ah, map);
+            JSONObject jsonObject = XmlUtil.xml2JSON(xml.getBytes());
+            JSONArray jsonArray = jsonObject.getJSONObject("result").getJSONArray("object");
+            result.append("{\"result\":{\"object\":[");
+            for(int i=0; i<jsonArray.size();i++){
+                result.append("[{"
+                        +"\"cityName\":" + "\"" + jsonArray.getJSONObject(i).getString("CITY_NAM") + "\""
+                        +",\"coordinate\":" + "[" + jsonArray.getJSONObject(i).getString("LONGITUDE")
+                        +"," + jsonArray.getJSONObject(i).getString("LATITUDE")+ "]"
+                        +",\"deviceCount\":" + "\"" + jsonArray.getJSONObject(i).getString("SGNL_CNT") + "\""
                         +"},"
-                        +"{\"cityName\":" + "\"" + destination.cityName + "\""
-                        +",\"coordinate\":" + "" + destination.coordinate + ""
-                        +",\"deviceCount\":" + "\"" + destination.deviceCount + "\""
+                        +"{\"cityName\":" + "\"" + "广州" + "\""
+                        +",\"coordinate\":" + "" + "[113.341527, 23.127041]" + ""
+                        +",\"deviceCount\":" + "\"" + "1" + "\""
                         +"}"
-                    +"]"
+                        +"]"
                 );
-                if(i!=1 || j!=19){
+                if(i!=jsonArray.size()-1){
                     result.append(",");
                 }
             }
+            result.append("]}}");
+        }else {
+            result.append("{\"result\":{\"object\":[");
+            for(int i=0; i<2; i++){
+                int indexDestination = (int)(Math.random()*4);
+                CityData destination = this.transportDataDestination.get(indexDestination);
+                for(int j=0; j<20; j++){
+                    int indexSource = (int)(Math.random()*40);
+                    CityData source = this.transportDataSource.get(indexSource);
+                    result.append("["
+                            +"{\"cityName\":" + "\"" + source.cityName + "\""
+                            +",\"coordinate\":" + "" + source.coordinate + ""
+                            +",\"deviceCount\":" + "\"" + source.deviceCount + "\""
+                            +"},"
+                            +"{\"cityName\":" + "\"" + destination.cityName + "\""
+                            +",\"coordinate\":" + "" + destination.coordinate + ""
+                            +",\"deviceCount\":" + "\"" + destination.deviceCount + "\""
+                            +"}"
+                            +"]"
+                    );
+                    if(i!=1 || j!=19){
+                        result.append(",");
+                    }
+                }
+            }
+            result.append("]}}");
         }
-        result.append("]}}");
+
         return result.toString();
     }
 
