@@ -30,7 +30,7 @@ public class RightController {
      * 设备数量每日趋势
      * @return
      */
-    @RequestMapping("/commonSgnlCntByDay")
+    @RequestMapping("/commonSgnlAllCntByDay")
     @ResponseBody
     public String commonSgnlCntByDay() throws Exception {
         Calendar cal = Calendar.getInstance();//使用默认时区和语言环境获得一个日历。
@@ -40,18 +40,17 @@ public class RightController {
         cal.add(Calendar.DAY_OF_WEEK, -19);//取当前日期的前一天.
         String start = format.format(cal.getTime());
         String result = null;
-        if (flag ==1){
+        if (flag ==0){
             GeneralRequestImpl gr = new GeneralRequestImpl();
             AppHeader ah = new AppHeader();
             ah.setAppId(appId);
             ah.setAppKey(appKey);
-            ah.setAbilityCode("commonSgnlCntByDay");
+            ah.setAbilityCode("commonSgnlAllCntByDay");
             Map<String, String> map = new HashMap<String, String>();
             map.put("USER_ID", "ALL");
             map.put("TENANT_ID", "ALL");
             map.put("START", start);
             map.put("END", end);
-            map.put("DEVICE_ID", "ALL");
             String xml = gr.sendSoapReq(ah, map);
             result = XmlUtil.xml2JSON(xml.getBytes()).toJSONString();
             return result;

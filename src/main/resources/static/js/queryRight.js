@@ -1,5 +1,4 @@
 function createActivityBar() {
-
     var arryX = [];
     var arryY = [];
 
@@ -13,6 +12,19 @@ function createActivityBar() {
                     arryX.push(val.APP_CALL_CNT);
                     arryY.push(val.VC_APP_NAME);
                 });
+            activityChart.setOption({
+                series: [{
+                    "name": "总计",
+                    "data": arryX
+                }, {
+                    name: "应用使用率",
+                    "show": false,
+                    "data": arryX
+                }],
+                yAxis: [{
+                    "data": arryY
+                }]
+            });
             },"json"//设置了获取数据的类型，所以得到的数据格式为json类型的
         );
     }
@@ -119,30 +131,33 @@ function createActivityBar() {
             }
         }]
     };
+    getNewData();
+    /*activityChart.setOption({
+        series: [{
+            "name": "总计",
+            "data": arryX
+        }, {
+            name: "应用使用率",
+            "show": false,
+            "data": arryX
+        }],
+        yAxis: [{
+            "data": arryY
+        }]
+    });*/
     activityChart.setOption(option);
     setInterval(function() {
         //每秒刷新一次跃度排行
         getNewData();
-        activityChart.setOption({
-            series: [{
-                "name": "总计",
-                "data": arryX
-            }, {
-                name: "应用使用率",
-                "show": false,
-                "data": arryX
-            }],
-            yAxis: [{
-                "data": arryY
-            }]
-        });
         //getActivityData();
-    }, 1000);
+    }, 300000);
+
 }
 
 function createCallTrendLine() {
     var arryX = [];
     var arryY = [];
+    var biggest = 0;
     function getNewData() {
         var value;
         $.post("commonAblitiesCntByDay",function(data){
@@ -150,9 +165,21 @@ function createCallTrendLine() {
                 arryY = [];
                 value = data.result.object;
                 $.each(value,function (index,val) {
+                    if (biggest < parseInt(val.ABILITY_CALL_CNT)){
+                        biggest = val.ABILITY_CALL_CNT;
+                    }
                     arryX.push(val.DATE_CD);
                     arryY.push(val.ABILITY_CALL_CNT);
                 });
+                console.log(biggest);
+            callTrendChart.setOption({
+                series: [{
+                    data: arryY
+                }],
+                xAxis:[{
+                    data: arryX
+                }]
+            });
             },"json"//设置了获取数据的类型，所以得到的数据格式为json类型的
         );
     }
@@ -228,34 +255,24 @@ function createCallTrendLine() {
             }
         } ]
     };
+    getNewData();
+    callTrendChart.setOption(option);
     setInterval(function() {
         //每秒刷新一次跃度排行
         getNewData();
-        callTrendChart.setOption({
-            series: [{
-                data: arryY
-            }],
-            xAxis:[{
-                data: arryX
-            }]
-        });
+
         //getActivityData();
-    }, 1000);
-    callTrendChart.setOption(option);
+    }, 300000);
+
 }
 //设备数据量
 function createDataTrendLine() {
     var arryX = [];
     var arryY = [];
-    /*function getActivityData() {
-        var appusage = [10, 52, 60, 34, 90, 30, 20, 45, 88, 16, 54, 55, 66, 68, 48, 36, 25, 75, 48];
-        var k = Math.round(Math.random() * 100);
-        appusage.push(k);
-        return appusage;
-    }*/
     function getNewData() {
         var value;
-        $.post("commonSgnlCntByDay",function(data){
+        $.post("commonSgnlAllCntByDay",function(data){
+            console.log(data)
                 arryX = [];
                 arryY = [];
                 value = data.result.object;
@@ -263,6 +280,15 @@ function createDataTrendLine() {
                     arryX.push(val.DATE_CD);
                     arryY.push(val.SGNL_CNT);
                 });
+            dataTrendChart.setOption({
+                series: [{
+                    data: arryY
+                }],
+                xAxis:[{
+                    data:arryX
+                }]
+
+            });
             },"json"//设置了获取数据的类型，所以得到的数据格式为json类型的
         );
     }
@@ -327,24 +353,17 @@ function createDataTrendLine() {
                         color: "#77e9c9" // 100% 处的颜色
                     }], false),
                     barBorderRadius: 4 * winTimes,
-
                 }
             }
         }]
     };
+    getNewData();
+    dataTrendChart.setOption(option);
     setInterval(function() {
         //每秒刷新一次跃度排行
         getNewData();
-        dataTrendChart.setOption({
-            series: [{
-                data: arryY
-            }],
-            xAxis:[{
-                data:arryX
-            }]
 
-        });
         //getActivityData();
-    }, 1000);
-    dataTrendChart.setOption(option);
+    }, 300000);
+
 }
