@@ -39,7 +39,7 @@ $(document).ready(function(){
             // alert(JSON.stringify(turnover1));
             turnover1.data('flipTimer').calculateDate();
         }});
-    },2000);
+    },8000);
 
     setInterval(function(){
         $.ajax({url:"commonAbilityCallCnt",success:function(result){
@@ -68,7 +68,7 @@ $(document).ready(function(){
             // alert(JSON.stringify(turnover1));
             turnover2.data('flipTimer').calculateDate();
         }});
-    },2000);
+    },8000);
 
     setInterval(function(){
         $.ajax({url:"commonCount",success:function(result){
@@ -82,7 +82,7 @@ $(document).ready(function(){
             $('.data-list').find('li').eq(2).find('.num').text(commonAppCnt);
             $('.data-list').find('li').eq(3).find('.num').text(commonAbilityCnt);
         }});
-    },2000);
+    },8000);
 });
 
 
@@ -181,7 +181,7 @@ function createPie() {
                 }]
             });
         }});
-    },2000);
+    },8000);
 
     setInterval(function() {
         $.ajax({url:"successRate",success:function(result){
@@ -196,5 +196,5 @@ function createPie() {
                 }]
             });
         }});
-    }, 2000);
+    }, 8000);
 }

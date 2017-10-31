@@ -1,5 +1,6 @@
 package com.jdnw.iotshow.controller;
 
+import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.jdnw.iotshow.util.SoapClient;
 import com.jdnw.iotshow.util.XmlUtil;
@@ -200,7 +201,7 @@ public class ShowController {
             AppHeader ah = new AppHeader();
             ah.setAppId(appId);
             ah.setAppKey(appKey);
-            ah.setAbilityCode("commonAbilityCallCntByDate");
+            ah.setAbilityCode("commonAbilityCallCntByDay");
             Map<String, String> map = new HashMap<String, String>();
             SimpleDateFormat formatter;
             formatter = new SimpleDateFormat ("yyyyMMdd");
@@ -337,53 +338,62 @@ public class ShowController {
 
     @RequestMapping("/heatMap")
     @ResponseBody
-    public String heatMap(){
-        SoapClient soapClient = new SoapClient("heatMap",
-                "http://10.3.6.40:9773/services/dw_admin?wsdl");
-        Map<String, String> patameterMap = new HashMap<String, String>(2);
-        patameterMap.put("VC_USER_ID", "ALL");
-        patameterMap.put("TENANT_ID", "ALL");
-
-        String soapRequestData = soapClient.buildRequestData(patameterMap);
-        //System.out.println(soapRequestData);
-        try {
-            //String soapResponseData = soapClient.invoke(patameterMap);
-            //result = XmlUtil.xml2JSON(soapResponseData.getBytes()).toJSONString();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
+    public String heatMap() throws Exception {
         StringBuffer result = new StringBuffer();
-        result.append("{\"result\":{\"object\":[");
-        for(int i=0; i<2; i++){
-            int indexSource = (int)(Math.random()*4);
-            CityData destination = this.transportDataDestination.get(indexSource);
-            result.append("{"
-                    +"\"cityName\":" + "\"" + destination.cityName + "\""
-                    +",\"coordinate\":" + "" + destination.coordinate + ""
-                    +",\"deviceCount\":" + "\"" + destination.deviceCount + "\""
-                    +"}"
-            );
-            result.append(",");
-        }
-        for(int j=0; j<30; j++){
-            int indexSource = (int)(Math.random()*40);
-            CityData source = this.transportDataSource.get(indexSource);
-            result.append("{"
-                    +"\"cityName\":" + "\"" + source.cityName + "\""
-                    +",\"coordinate\":" + "" + source.coordinate + ""
-                    +",\"deviceCount\":" + "\"" + source.deviceCount + "\""
-                +"}"
-            );
-            if(j!=29){
+        if(!mockData) {
+            GeneralRequestImpl gr = new GeneralRequestImpl();
+            AppHeader ah = new AppHeader();
+            ah.setAppId(appId);
+            ah.setAppKey(appKey);
+            ah.setAbilityCode("commonDeviceCityCnt");
+            Map<String, String> map = new HashMap<String, String>();
+            map.put("TENANT_ID","ALL");
+            map.put("PROVINCE_ID","ALL");
+            String xml = gr.sendSoapReq(ah, map);
+            JSONObject jsonObject = XmlUtil.xml2JSON(xml.getBytes());
+            JSONArray jsonArray = jsonObject.getJSONObject("result").getJSONArray("object");
+            result.append("{\"result\":{\"object\":[");
+            for(int i=0; i<jsonArray.size();i++){
+                result.append("{"
+                        +"\"cityName\":" + "\"" + jsonArray.getJSONObject(i).getString("CITY_NAM") + "\""
+                        +",\"coordinate\":" + "[" + jsonArray.getJSONObject(i).getString("CITY_LONGITUDE")
+                        +"," + jsonArray.getJSONObject(i).getString("CITY_LATITUDE")+ "]"
+                        +",\"deviceCount\":" + "\"" + jsonArray.getJSONObject(i).getString("DEVICE_CNT") + "\""
+                        +"}"
+                );
+                if(i!=jsonArray.size()-1){
+                    result.append(",");
+                }
+            }
+            result.append("]}}");
+        }else {
+            result.append("{\"result\":{\"object\":[");
+            for(int i=0; i<2; i++){
+                int indexSource = (int)(Math.random()*4);
+                CityData destination = this.transportDataDestination.get(indexSource);
+                result.append("{"
+                        +"\"cityName\":" + "\"" + destination.cityName + "\""
+                        +",\"coordinate\":" + "" + destination.coordinate + ""
+                        +",\"deviceCount\":" + "\"" + destination.deviceCount + "\""
+                        +"}"
+                );
                 result.append(",");
             }
+            for(int j=0; j<30; j++){
+                int indexSource = (int)(Math.random()*40);
+                CityData source = this.transportDataSource.get(indexSource);
+                result.append("{"
+                        +"\"cityName\":" + "\"" + source.cityName + "\""
+                        +",\"coordinate\":" + "" + source.coordinate + ""
+                        +",\"deviceCount\":" + "\"" + source.deviceCount + "\""
+                        +"}"
+                );
+                if(j!=29){
+                    result.append(",");
+                }
+            }
+            result.append("]}}");
         }
-        result.append("]}}");
         return result.toString();
     }
-
-
-
-
 }
