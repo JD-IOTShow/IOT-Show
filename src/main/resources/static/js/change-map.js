@@ -10,14 +10,20 @@ $(function() {
         $('#mapRmodynamic').addClass('active');
         $('#sonMap').removeClass('active');
         if ($(this).hasClass('rmodynamic')) {
-            changeMap(heatMapResult);
-            $('.rmodynamic').addClass('active');
-            $('.transmission').removeClass('active');
+            if(heatMapResult) {
+                var dataArray = $.parseJSON(heatMapResult).result.object;
+                changeMap(dataArray);
+                $('.rmodynamic').addClass('active');
+                $('.transmission').removeClass('active');
+            }
             handleHeatMap();
         } else {
-            changeTransMap(transportMapResult);
-            $('.rmodynamic').removeClass('active');
-            $('.transmission').addClass('active');
+            if(transportMapResult) {
+                var dataArray = $.parseJSON(transportMapResult).result.object;
+                changeTransMap(dataArray);
+                $('.rmodynamic').removeClass('active');
+                $('.transmission').addClass('active');
+            }
             handleTransportMap();
         }
     });
