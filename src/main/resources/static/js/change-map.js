@@ -169,7 +169,7 @@ function changeMap(dataArray) {
                 coordinateSystem: 'geo',
                 data: convertData(),
                 symbolSize: function(val) {
-                    return val[2] / 1000;
+                    return val[2] / 5000;
                 },
                 label: {
                     normal: {
@@ -204,7 +204,7 @@ function changeMap(dataArray) {
                 coordinateSystem: 'geo',
                 data: convertData().slice(0, 3),
                 symbolSize: function(val) {
-                    return val[2] / 1000;
+                    return val[2] / 5000;
                 },
                 showEffectOn: 'render',
                 rippleEffect: {
@@ -525,7 +525,17 @@ function changeTransMap(dataArray) {
             coordinateSystem: 'geo',
             data: convertData(),
             symbolSize: function(val) {
-                return val[2] / 100;
+                var size = 1;
+                if(val[2]<100){
+                    size = 5;
+                }else if(val[2]>100 && val[2]<=1000){
+                    size = 10;
+                }else if(val[2]>1000 && val[2]<=10000){
+                    size = 15;
+                }else if(val[2]>10000){
+                    size = 20;
+                }
+                return size;
             },
             // label: {
             //     normal: {
@@ -555,7 +565,9 @@ function changeTransMap(dataArray) {
             },
             data: formtVData(),
             //小圆点大小
-            symbolSize: 20,
+            symbolSize: function(val) {
+                return val[2] / 1000;
+            },
             showEffectOn: 'render',
             rippleEffect: {
                 brushType: 'stroke'
