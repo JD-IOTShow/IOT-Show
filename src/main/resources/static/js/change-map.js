@@ -102,11 +102,12 @@ function changeMap(dataArray) {
         },
         visualMap: {
             min: 0,
-            max: 100,
+            //max: convertData()[0].value[2]?convertData()[0].value[2]:1000,
+            max:1000,
             calculable: true,
             inRange: {
                 color: ['#0993ce', '#6d6f9f', '#eb355e'],
-                symbolSize: [5, 30]
+                symbolSize: [5, 15]
             },
             controller: {
                 inRange: {
@@ -151,7 +152,7 @@ function changeMap(dataArray) {
                 coordinateSystem: 'geo',
                 data: convertData(),
                 symbolSize: function(val) {
-                    return val[2] / 10;
+                    return val[2] / 1000;
                 },
                 label: {
                     normal: {
@@ -186,7 +187,7 @@ function changeMap(dataArray) {
                 coordinateSystem: 'geo',
                 data: convertData().slice(0, 3),
                 symbolSize: function(val) {
-                    return val[2] / 10;
+                    return val[2] / 1000;
                 },
                 showEffectOn: 'render',
                 rippleEffect: {
@@ -264,18 +265,24 @@ mapChart.on('click', function(params) {
             var mapOption = {
                 tooltip: {
                     trigger: 'item',
-                    formatter: '{b}'
+                    formatter: function (params) {
+                        console.log(JSON.stringify(params));
+                        return params.data.name
+                            + '<div style="border-bottom: 1px solid rgba(255,255,255,.3); '
+                            + 'font-size: 14px;padding-bottom: 7px;margin-bottom: 7px"></div>'
+                            + '设备数：<font style="color:#fe9601">'+ params.data.value[2] + '</font> (个)';
+                    },
                 },
                 textStyle: {
                     color: '#f2f3f5'
                 },
                 visualMap: {
                     min: 0,
-                    max: 100,
+                    max: 1000,
                     calculable: true,
                     inRange: {
                         color: ['#0993ce', '#6d6f9f', '#eb355e'],
-                        symbolSize: [5, 30]
+                        symbolSize: [5, 15]
                     },
                     controller: {
                         inRange: {
