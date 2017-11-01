@@ -7,6 +7,8 @@ $(function() {
     handleHeatMap();
     $('.tab-header').delegate('a', 'click', function() {
         //$(this).addClass('active').siblings().removeClass('active');
+        $('#mapRmodynamic').addClass('active');
+        $('#sonMap').removeClass('active');
         if ($(this).hasClass('rmodynamic')) {
             changeMap(heatMapResult);
             $('.rmodynamic').addClass('active');
@@ -253,8 +255,8 @@ mapChart.on('click', function(params) {
     while(timer_array_transport_map.length>0){
         clearInterval(timer_array_transport_map.pop());
     }
-    $.ajax({url:"heatMap",success:function(result) {
-        var dataArray = $.parseJSON(result).result.object;
+    //$.ajax({url:"heatMap",success:function(result) {
+        var dataArray = $.parseJSON(heatMapResult).result.object;
         var convertData = function() {
             dataArray.sort(function(a, b) {
                 return b.deviceCount - a.deviceCount;
@@ -395,7 +397,7 @@ mapChart.on('click', function(params) {
             }
         });
         mapChart.setOption(mapOption, true);
-    }});
+    //}});
     window.addEventListener("resize", function() {
         mapChart.resize();
     });
