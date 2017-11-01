@@ -178,6 +178,11 @@ function createCallTrendLine() {
                 }],
                 xAxis:[{
                     data: arryX
+                }],
+                yAxis:[{
+                    min: 0,
+                    max: biggest,
+                    interval: Math.round(biggest/5),
                 }]
             });
             },"json"//设置了获取数据的类型，所以得到的数据格式为json类型的
