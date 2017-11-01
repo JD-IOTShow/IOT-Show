@@ -234,7 +234,7 @@ function createCallTrendLine() {
             axisTick: { show: false },
             axisLine: {
                 lineStyle: {
-                    color: ['#414850'],
+                    color: ['#979797'],
                     opacity: .6
                 }
             },
@@ -331,7 +331,7 @@ function createDataTrendLine() {
             // offset: -5,
             axisLine: { //坐标轴线
                 lineStyle: {
-                    color: ['#414850'],
+                    color: ['#979797'],
                     opacity: .6
                 }
             },
