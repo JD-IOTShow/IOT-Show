@@ -1,13 +1,21 @@
 var timer_array_transport_map = [];
 var timer_array_heat_map = [];
+var heatMapResult;
+var transportMapResult;
 $(function() {
     //生成两个地图
     handleHeatMap();
     $('.tab-header').delegate('a', 'click', function() {
         //$(this).addClass('active').siblings().removeClass('active');
         if ($(this).hasClass('rmodynamic')) {
+            changeMap(heatMapResult);
+            $('.rmodynamic').addClass('active');
+            $('.transmission').removeClass('active');
             handleHeatMap();
         } else {
+            changeTransMap(transportMapResult);
+            $('.rmodynamic').removeClass('active');
+            $('.transmission').addClass('active');
             handleTransportMap();
         }
     });
@@ -53,6 +61,7 @@ function handleHeatMap() {
         changeMap(dataArray);
         $('.rmodynamic').addClass('active');
         $('.transmission').removeClass('active');
+        heatMapResult = result;
     }});
     while(timer_array_transport_map.length>0){
         clearInterval(timer_array_transport_map.pop());
@@ -445,6 +454,16 @@ function changeTransMap(dataArray) {
 
     var planePath = 'circle';
     var mapOption = {
+        tooltip: {
+            trigger: 'item',
+            formatter: function (params) {
+                console.log(JSON.stringify(params));
+                return params.data.name
+                    + '<div style="border-bottom: 1px solid rgba(255,255,255,.3); '
+                    + 'font-size: 14px;padding-bottom: 7px;margin-bottom: 7px"></div>'
+                    + '设备数：<font style="color:#fe9601">'+ params.data.value[2] + '</font> (个)';
+            },
+        },
         geo: {
             map: 'china',
             label: {
@@ -494,18 +513,18 @@ function changeTransMap(dataArray) {
             coordinateSystem: 'geo',
             data: convertData(),
             symbolSize: function(val) {
-                return val[2] / 50000;
+                return val[2] / 1000;
             },
-            label: {
-                normal: {
-                    formatter: '{b}',
-                    position: 'right',
-                    show: false
-                },
-                emphasis: {
-                    show: true
-                }
-            },
+            // label: {
+            //     normal: {
+            //         formatter: '{b}',
+            //         position: 'right',
+            //         show: false
+            //     },
+            //     emphasis: {
+            //         show: true
+            //     }
+            // },
             itemStyle: {
                 normal: {
                     color: '#eb355e'
@@ -551,6 +570,7 @@ function handleTransportMap() {
         changeTransMap(dataArray);
         $('.rmodynamic').removeClass('active');
         $('.transmission').addClass('active');
+        transportMapResult = result;
     }});
     while(timer_array_heat_map.length>0){
         clearInterval(timer_array_heat_map.pop());
