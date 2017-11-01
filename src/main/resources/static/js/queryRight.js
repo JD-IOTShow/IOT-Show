@@ -217,7 +217,7 @@ function createCallTrendLine() {
             splitNumber: 6,
             axisLine: { //网格线
                 lineStyle: {
-                    color: ['#41484f'],
+                    color: ['#979797'],
                     opacity: .6
                 }
             },
@@ -239,7 +239,7 @@ function createCallTrendLine() {
                 }
             },
             axisLabel: {
-                color: '#414850',
+                color: '#979797',
                 fontSize: 12 * winTimes,
             },
             splitLine: { //网格线
@@ -321,7 +321,7 @@ function createDataTrendLine() {
             axisTick: { show: false },
             axisLine: { //坐标轴线
                 lineStyle: {
-                    color: ['#41484f']
+                    color: ['#979797']
                 }
             },
         }],
@@ -336,7 +336,7 @@ function createDataTrendLine() {
                 }
             },
             axisLabel: {
-                color: '#414850',
+                color: '#979797',
                 fontSize: 12 * winTimes,
             },
             splitLine: {
