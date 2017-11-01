@@ -92,7 +92,13 @@ function changeMap(dataArray) {
     var mapOption = {
         tooltip: {
             trigger: 'item',
-            formatter: '{b}'
+            formatter: function (params) {
+                console.log(JSON.stringify(params));
+                return params.data.name
+                    + '<div style="border-bottom: 1px solid rgba(255,255,255,.3); '
+                    + 'font-size: 14px;padding-bottom: 7px;margin-bottom: 7px"></div>'
+                    + '设备数：<font style="color:#fe9601">'+ params.data.value[2] + '</font> (个)';
+            },
         },
         visualMap: {
             min: 0,
@@ -149,12 +155,23 @@ function changeMap(dataArray) {
                 },
                 label: {
                     normal: {
-                        formatter: '{b}',
+                        formatter: function (params) {
+                            //console.log(JSON.stringify(params));
+                            return "设备数："+params.data.value[2]+"(个)";
+                        },
                         position: 'right',
-                        show: false
+                        show: false,
+                        textStyle : {
+                            color: '#fe9601',
+                            decoration: 'none',
+                            fontFamily: 'Verdana, sans-serif',
+                            fontSize: 18,
+                            //fontStyle: 'italic',
+                            fontWeight: 'bold'
+                        }
                     },
                     emphasis: {
-                        show: true
+                        show: false
                     }
                 },
                 itemStyle: {
@@ -178,9 +195,23 @@ function changeMap(dataArray) {
                 hoverAnimation: true,
                 label: {
                     normal: {
-                        formatter: '{b}',
+                        formatter: function (params) {
+                            //console.log(JSON.stringify(params));
+                            return params.data.value[2];
+                        },
                         position: 'right',
-                        show: true
+                        show: false,
+                        // textStyle : {
+                        //     color: 'yellow',
+                        //     decoration: 'none',
+                        //     fontFamily: 'Verdana, sans-serif',
+                        //     fontSize: 25,
+                        //     fontStyle: 'italic',
+                        //     fontWeight: 'bold'
+                        // }
+                    },
+                    emphasis: {
+                        show: false
                     }
                 },
                 itemStyle: {
