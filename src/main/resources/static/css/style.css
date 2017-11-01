@@ -851,8 +851,9 @@ img {
 .footer {
     text-align: center;
     font-size: .7rem;
-    color: #8ae3e8;
-    opacity: .2;
+    color: rgba(255, 255, 0, 1);
+    opacity: 1;
     margin-top: -.8rem;
     margin-bottom: .5rem;
+    color: #52feff;
 }
