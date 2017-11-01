@@ -466,10 +466,14 @@ function changeTransMap(dataArray) {
             trigger: 'item',
             formatter: function (params) {
                 console.log(JSON.stringify(params));
-                return params.data.name
-                    + '<div style="border-bottom: 1px solid rgba(255,255,255,.3); '
-                    + 'font-size: 14px;padding-bottom: 7px;margin-bottom: 7px"></div>'
-                    + '设备数：<font style="color:#fe9601">'+ params.data.value[2] + '</font> (个)';
+                if(params.componentSubType=='lines'){
+                    return "";
+                }else if (params.componentSubType=='scatter') {
+                    return params.data.name
+                        + '<div style="border-bottom: 1px solid rgba(255,255,255,.3); '
+                        + 'font-size: 14px;padding-bottom: 7px;margin-bottom: 7px"></div>'
+                        + '数据量：<font style="color:#fe9601">' + params.data.value[2] + '</font>';
+                }
             },
         },
         geo: {
@@ -521,7 +525,7 @@ function changeTransMap(dataArray) {
             coordinateSystem: 'geo',
             data: convertData(),
             symbolSize: function(val) {
-                return val[2] / 1000;
+                return val[2] / 100;
             },
             // label: {
             //     normal: {
