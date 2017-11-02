@@ -1,7 +1,7 @@
 var timer_array_transport_map = [];
 var timer_array_heat_map = [];
-var heatMapResult ="{\"result\":{\"object\":[{\"cityName\":\"广州市\",\"coordinate\":[113.341527,23.127041],\"deviceCount\": \"5\"}]}}";
-var transportMapResult = "{\"result\":{\"object\":[[{\"cityName\":\"广州市\",\"coordinate\":[113.341527,23.127041],\"deviceCount\":\"5\"},{\"cityName\":\"广州\",\"coordinate\":[113.341527, 23.127041],\"deviceCount\":\"5\"}]]}}";
+var heatMapResult ="{\"result\":{\"object\":[{\"cityName\":\"广州市\",\"coordinate\":[113.341527,23.127041],\"deviceCount\": \"0\"}]}}";
+var transportMapResult = "{\"result\":{\"object\":[[{\"cityName\":\"广州市\",\"coordinate\":[113.341527,23.127041],\"deviceCount\":\"0\"},{\"cityName\":\"广州\",\"coordinate\":[113.341527, 23.127041],\"deviceCount\":\"0\"}]]}}";
 $(function() {
     //生成两个地图
     var init = $.parseJSON(heatMapResult).result.object;
@@ -446,7 +446,7 @@ function changeTransMap(dataArray) {
         var tGeoDt = [];
         var keyValue = {};
         for(var i=0; i<dataArray.length; i++){
-            keyValue[dataArray[i][1].cityName] = dataArray[i][1].coordinate;
+            keyValue[dataArray[i][0].cityName] = dataArray[i][1].coordinate.concat(dataArray[i][0].deviceCount);
         }
         for (var key in keyValue){
             tGeoDt.push({
@@ -473,6 +473,11 @@ function changeTransMap(dataArray) {
                 if(params.componentSubType=='lines'){
                     return "";
                 }else if (params.componentSubType=='scatter') {
+                    return params.data.name
+                        + '<div style="border-bottom: 1px solid rgba(255,255,255,.3); '
+                        + 'font-size: 14px;padding-bottom: 7px;margin-bottom: 7px"></div>'
+                        + '数据量：<font style="color:#fe9601">' + params.data.value[2] + '</font>';
+                }else if (params.componentSubType=='effectScatter') {
                     return params.data.name
                         + '<div style="border-bottom: 1px solid rgba(255,255,255,.3); '
                         + 'font-size: 14px;padding-bottom: 7px;margin-bottom: 7px"></div>'
