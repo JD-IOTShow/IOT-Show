@@ -1,9 +1,13 @@
 var timer_array_transport_map = [];
 var timer_array_heat_map = [];
-var heatMapResult;
-var transportMapResult;
+var heatMapResult ="{\"result\":{\"object\":[{\"cityName\":\"广州市\",\"coordinate\":[113.341527,23.127041],\"deviceCount\": \"5\"}]}}";
+var transportMapResult = "{\"result\":{\"object\":[[{\"cityName\":\"广州市\",\"coordinate\":[113.341527,23.127041],\"deviceCount\":\"5\"},{\"cityName\":\"广州\",\"coordinate\":[113.341527, 23.127041],\"deviceCount\":\"5\"}]]}}";
 $(function() {
     //生成两个地图
+    var init = $.parseJSON(heatMapResult).result.object;
+    changeMap(init);
+    $('.rmodynamic').addClass('active');
+    $('.transmission').removeClass('active');
     handleHeatMap();
     $('.tab-header').delegate('a', 'click', function() {
         //$(this).addClass('active').siblings().removeClass('active');
