@@ -118,7 +118,7 @@
 					<env>
 						<ETCD_URI>${etcd.uri}</ETCD_URI>
 					</env>
-					<entryPoint> ["entryPoint"]</entryPoint>
+					<!--<entryPoint> ["entryPoint"]</entryPoint>-->
 
 					<resources>
 						<resource>
