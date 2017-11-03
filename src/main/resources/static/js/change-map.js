@@ -446,7 +446,7 @@ function changeTransMap(dataArray) {
         var tGeoDt = [];
         var keyValue = {};
         for(var i=0; i<dataArray.length; i++){
-            keyValue[dataArray[i][0].cityName] = dataArray[i][1].coordinate.concat(dataArray[i][0].deviceCount);
+            keyValue[dataArray[i][0].cityName] = dataArray[i][0].coordinate.concat(dataArray[i][0].deviceCount);
         }
         for (var key in keyValue){
             tGeoDt.push({
@@ -536,13 +536,13 @@ function changeTransMap(dataArray) {
             symbolSize: function(val) {
                 var size = 1;
                 if(val[2]<100){
-                    size = 5;
+                    size = 3;
                 }else if(val[2]>100 && val[2]<=1000){
-                    size = 10;
+                    size = 6;
                 }else if(val[2]>1000 && val[2]<=10000){
-                    size = 15;
+                    size = 9;
                 }else if(val[2]>10000){
-                    size = 20;
+                    size = 12;
                 }
                 return size;
             },
@@ -572,7 +572,7 @@ function changeTransMap(dataArray) {
                 scale: 2.5,
                 brushType: 'stroke'
             },
-            data: formtVData(),
+            data: formtVData().slice(0, 3),
             //小圆点大小
             symbolSize: function(val) {
                 return val[2] / 1000;
