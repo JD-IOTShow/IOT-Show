@@ -445,8 +445,12 @@ function changeTransMap(dataArray) {
     function formtVData() {
         var tGeoDt = [];
         var keyValue = {};
+        var gz_deviceCount;
         for(var i=0; i<dataArray.length; i++){
-            keyValue[dataArray[i][0].cityName] = dataArray[i][0].coordinate.concat(dataArray[i][0].deviceCount);
+            if(dataArray[i][0].cityName=="广州市"){
+                gz_deviceCount = dataArray[i][0].deviceCount;
+            }
+            keyValue[dataArray[i][1].cityName] = dataArray[i][1].coordinate.concat(gz_deviceCount);
         }
         for (var key in keyValue){
             tGeoDt.push({
@@ -485,6 +489,23 @@ function changeTransMap(dataArray) {
                 }
             },
         },
+        // visualMap: {
+        //     min: 0,
+        //     max: 100000,
+        //     calculable: true,
+        //     inRange: {
+        //         color: ['#0993ce', '#6d6f9f', '#eb355e'],
+        //         symbolSize: [5, 15]
+        //     },
+        //     controller: {
+        //         inRange: {
+        //             symbolSize: [10, 10]
+        //         }
+        //     },
+        //     textStyle: {
+        //         color: '#fff'
+        //     }
+        // },
         geo: {
             map: 'china',
             label: {
@@ -546,6 +567,9 @@ function changeTransMap(dataArray) {
                 }
                 return size;
             },
+            //     symbolSize: function(val) {
+            //         return val[2] / 5000;
+            //     },
             // label: {
             //     normal: {
             //         formatter: '{b}',
@@ -558,7 +582,7 @@ function changeTransMap(dataArray) {
             // },
             itemStyle: {
                 normal: {
-                    color: '#eb355e'
+                    color: '#823876'
                 }
             }
         }, {
@@ -572,7 +596,7 @@ function changeTransMap(dataArray) {
                 scale: 2.5,
                 brushType: 'stroke'
             },
-            data: formtVData().slice(0, 3),
+            data: formtVData().slice(0, 1),
             //小圆点大小
             symbolSize: function(val) {
                 return val[2] / 1000;
