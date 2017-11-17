@@ -23,10 +23,10 @@
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<java.version>1.8</java.version>
 
-		<docker.host>https://10.3.6.71:2376</docker.host>
+		<docker.host>https://10.3.5.71:2376</docker.host>
 		<docker.certs>src/main/docker/cert/71</docker.certs>
 		<docker.repostory>jdnw.com:5000</docker.repostory>
-		<docker.registry.name>aep</docker.registry.name>
+		<docker.registry.name>app</docker.registry.name>
 		<docker.base.image>jdnw.com:5000/oneopen/jdk8:8.131</docker.base.image>
 		<etcd.uri>http://10.3.6.76:2379</etcd.uri>
 		<docker.image.prefix>iotshow</docker.image.prefix>
