@@ -1,9 +1,9 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: aep-iotshow
+  name: app-iotshow
   labels:
-    k8s-app: aep-iotshow
+    k8s-app: app-iotshow
 spec:
   ports:
   - port: 8080
@@ -11,25 +11,25 @@ spec:
     protocol: TCP
     name: http
   selector:
-    k8s-app: aep-iotshow
+    k8s-app: app-iotshow
 ---
 apiVersion: v1
 kind: ReplicationController
 metadata:
-  name: aep-iotshow
+  name: app-iotshow
 spec:
   replicas: 1
   selector:
-    k8s-app: aep-iotshow
+    k8s-app: app-iotshow
   template:
     metadata:
       labels:
-        k8s-app: aep-iotshow
+        k8s-app: app-iotshow
     spec:
       terminationGracePeriodSeconds: 60
       containers:
-      - name: aep-iotshow
-        image: jdnw.com:5000/aep/iotshow:latest
+      - name: app-iotshow
+        image: jdnw.com:5000/app/iotshow:latest
         ports:
         - containerPort: 8080
         env:
