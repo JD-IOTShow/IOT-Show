@@ -34,4 +34,6 @@ spec:
         - containerPort: 8080
         env:
         - name: ETCD_URI
-          value: "http://10.3.6.76:2379"
+          value: "http://etcdservice:2379"
+        - name: SERVICEENGINE_URL
+          value: "http://aep-serviceengine:8081/aep/com"
