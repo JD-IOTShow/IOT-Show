@@ -7,6 +7,7 @@ import com.jdnw.iotshow.util.XmlUtil;
 import com.scinfo.aep.sdk.general.impl.GeneralRequestImpl;
 import com.scinfo.entity.AppHeader;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -26,8 +27,11 @@ import java.util.Map;
 @Controller
 public class ShowController {
     private boolean mockData = false;
-    private String appId = "122";
-    private String appKey = "1715vK65u6d3aQ8";
+    @Value("${iotshow.appkey}")
+    private String appKey;
+
+    @Value("${iotshow.appid}")
+    private String appId;
 
     private int count1 = 135095;
     private int count2 = 268070;
