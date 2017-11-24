@@ -2,6 +2,11 @@ var arr1 = new Array();
 var arr2 = new Array();
 arr1.push('000/000/000');
 arr2.push('000/000/000');
+
+function prefixInteger(num, n) {
+    return (Array(n).join(0) + num).slice(-n);
+}
+
 var turnover1 = $('.dowebok').flipTimer({
     direction: 'up',
     date: arr1
@@ -15,6 +20,7 @@ $(document).ready(function(){
     setInterval(function(){
         $.ajax({url:"queryPlatStatusAll",success:function(result){
             var str = $.parseJSON(result).result.object[0].SGNL_CNT;
+            str = prefixInteger(str,9);
             var array = [];
             var i=str.length-1;
             var j = 9;
@@ -44,6 +50,7 @@ $(document).ready(function(){
     setInterval(function(){
         $.ajax({url:"commonAbilityCallCnt",success:function(result){
             var str = $.parseJSON(result).result.object[0].ABILITY_CALL_CNT;
+            str = prefixInteger(str,9);
             var array = [];
             var i=str.length-1;
             var j = 9;
