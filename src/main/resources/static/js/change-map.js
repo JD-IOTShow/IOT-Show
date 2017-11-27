@@ -332,10 +332,10 @@ mapChart.on('click', function(params) {
                         emphasis: {
                             areaColor: '#061c2f'
                         }
-                    },
-                    left: 0,
-                    right: 0,
-                    layoutCenter: ['100%', '100%'],
+                    }
+                    // left: 0,
+                    // right: 0,
+                    // layoutCenter: ['100%', '100%'],
                     // 如果宽高比大于 1 则宽度为 100，如果小于 1 则高度为 100，保证了不超过 100x100 的区域
                 },
                 series: [
