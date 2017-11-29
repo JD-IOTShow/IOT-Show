@@ -27,11 +27,18 @@ spec:
         k8s-app: app-iotshow
     spec:
       terminationGracePeriodSeconds: 60
+      volumes:
+      - name: logs
+        persistentVolumeClaim:
+          claimName: pvc-log-iotshow
       containers:
       - name: app-iotshow
         image: jdnw.com:5000/app/iotshow:latest
         ports:
         - containerPort: 8080
+        volumeMounts:
+        - name: logs
+          mountPath: "/log"
         env:
         - name: ETCD_URI
           value: "http://etcdservice:2379"

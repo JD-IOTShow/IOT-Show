@@ -6,6 +6,8 @@ import com.jdnw.iotshow.util.SoapClient;
 import com.jdnw.iotshow.util.XmlUtil;
 import com.scinfo.aep.sdk.general.impl.GeneralRequestImpl;
 import com.scinfo.entity.AppHeader;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
@@ -26,6 +28,9 @@ import java.util.Map;
  **/
 @Controller
 public class ShowController {
+
+    private final static Logger logger = LoggerFactory.getLogger(ShowController.class);
+
     private boolean mockData = false;
     @Value("${iotshow.appkey}")
     private String appKey;
@@ -61,7 +66,8 @@ public class ShowController {
             map.put("VC_USER_ID", "ALL");
             map.put("TENANT_ID", "ALL");
             String xml = gr.sendSoapReq(ah, map);
-            result = XmlUtil.xml2JSON(xml.getBytes()).toJSONString();;
+            logger.debug("commonAbilityCallCnt  @@@@@@@@@@@@@  "+xml);
+            result = XmlUtil.xml2JSON(xml.getBytes()).toJSONString();
         }else {
             int count = this.count1++;
             result = "{\"result\":{\"object\":[{\"ABILITY_CALL_CNT\":\"" + count + "\"}]}}";
@@ -85,6 +91,7 @@ public class ShowController {
             String today = formatter.format(new Date());
             map.put("DATE_CD", today);
             String xml = gr.sendSoapReq(ah, map);
+            logger.debug("queryPlatStatusAll  @@@@@@@@@@@@@  "+xml);
             result = XmlUtil.xml2JSON(xml.getBytes()).toJSONString();;
         }else {
             int count = this.count2++;
@@ -107,6 +114,7 @@ public class ShowController {
             map.put("USER_ID", "ALL");
             map.put("TENANT_ID", "ALL");
             String xml = gr.sendSoapReq(ah, map);
+            logger.debug("commonProductCnt  @@@@@@@@@@@@@  "+xml);
             JSONObject jsonObject = XmlUtil.xml2JSON(xml.getBytes());
             String commonProductCnt = jsonObject.getJSONObject("result").getJSONArray("object")
                     .getJSONObject(0).getString("PRODUCT_CNT");
@@ -120,6 +128,7 @@ public class ShowController {
             map.put("USER_ID", "ALL");
             map.put("TENANT_ID", "ALL");
             xml = gr.sendSoapReq(ah, map);
+            logger.debug("commonDeviceCnt  @@@@@@@@@@@@@  "+xml);
             jsonObject = XmlUtil.xml2JSON(xml.getBytes());
             int commonDeviceCnt = Integer.parseInt(jsonObject.getJSONObject("result").getJSONArray("object")
                     .getJSONObject(0).getString("ONLINE_DEVICE_CNT"))
@@ -135,6 +144,7 @@ public class ShowController {
             map.put("VC_USER_ID", "ALL");
             map.put("TENANT_ID", "ALL");
             xml = gr.sendSoapReq(ah, map);
+            logger.debug("commonAppCnt  @@@@@@@@@@@@@  "+xml);
             jsonObject = XmlUtil.xml2JSON(xml.getBytes());
             String commonAppCnt = jsonObject.getJSONObject("result").getJSONArray("object")
                     .getJSONObject(0).getString("APP_CNT");
@@ -148,6 +158,7 @@ public class ShowController {
             map.put("VC_USER_ID", "ALL");
             map.put("TENANT_ID", "ALL");
             xml = gr.sendSoapReq(ah, map);
+            logger.debug("commonAbilityCnt  @@@@@@@@@@@@@  "+xml);
             jsonObject = XmlUtil.xml2JSON(xml.getBytes());
             String commonAbilityCnt = jsonObject.getJSONObject("result").getJSONArray("object")
                     .getJSONObject(0).getString("ABILITY_CNT");
@@ -182,6 +193,7 @@ public class ShowController {
             map.put("USER_ID", "ALL");
             map.put("TENANT_ID", "ALL");
             String xml = gr.sendSoapReq(ah, map);
+            logger.debug("commonDeviceCnt  @@@@@@@@@@@@@  "+xml);
             JSONObject jsonObject = XmlUtil.xml2JSON(xml.getBytes());
             double ONLINE_DEVICE_CNT = Double.parseDouble(jsonObject.getJSONObject("result").getJSONArray("object")
                     .getJSONObject(0).getString("ONLINE_DEVICE_CNT"));
@@ -214,6 +226,7 @@ public class ShowController {
             map.put("VC_USER_ID", "ALL");
             map.put("TENANT_ID", "ALL");
             String xml = gr.sendSoapReq(ah, map);
+            logger.debug("commonAbilityCallCntByDay  @@@@@@@@@@@@@  "+xml);
             JSONObject jsonObject = XmlUtil.xml2JSON(xml.getBytes());
 
             double ABILITY_CALL_CNT = Double.parseDouble(jsonObject.getJSONObject("result").getJSONArray("object")
@@ -314,6 +327,7 @@ public class ShowController {
             map.put("DEVICE_ID","ALL");
             map.put("PROVINCE_ID","ALL");
             String xml = gr.sendSoapReq(ah, map);
+            logger.debug("commonCitySgnlCntByDay  @@@@@@@@@@@@@  "+xml);
             JSONObject jsonObject = XmlUtil.xml2JSON(xml.getBytes());
             JSONArray jsonArray = jsonObject.getJSONObject("result").getJSONArray("object");
             result.append("{\"result\":{\"object\":[");
@@ -379,6 +393,7 @@ public class ShowController {
             map.put("TENANT_ID","ALL");
             map.put("PROVINCE_ID","ALL");
             String xml = gr.sendSoapReq(ah, map);
+            logger.debug("commonDeviceCityCnt  @@@@@@@@@@@@@  "+xml);
             JSONObject jsonObject = XmlUtil.xml2JSON(xml.getBytes());
             JSONArray jsonArray = jsonObject.getJSONObject("result").getJSONArray("object");
             result.append("{\"result\":{\"object\":[");
