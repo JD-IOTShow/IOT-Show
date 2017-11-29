@@ -20,6 +20,9 @@ $(document).ready(function(){
     setInterval(function(){
         $.ajax({url:"queryPlatStatusAll",success:function(result){
             var str = $.parseJSON(result).result.object[0].SGNL_CNT;
+            if(str==""||str==undefined){
+                str = 0;
+            }
             str = prefixInteger(str,9);
             var array = [];
             var i=str.length-1;
@@ -50,6 +53,9 @@ $(document).ready(function(){
     setInterval(function(){
         $.ajax({url:"commonAbilityCallCnt",success:function(result){
             var str = $.parseJSON(result).result.object[0].ABILITY_CALL_CNT;
+            if(str==""||str==undefined){
+                str = 0;
+            }
             str = prefixInteger(str,9);
             var array = [];
             var i=str.length-1;
