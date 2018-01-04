@@ -1,0 +1,47 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: app-iotshow
+  labels:
+    k8s-app: app-iotshow
+spec:
+  ports:
+  - port: 8080
+    targetPort: 8080
+    protocol: TCP
+    name: http
+  selector:
+    k8s-app: app-iotshow
+---
+apiVersion: v1
+kind: ReplicationController
+metadata:
+  name: app-iotshow
+spec:
+  replicas: 1
+  selector:
+    k8s-app: app-iotshow
+  template:
+    metadata:
+      labels:
+        k8s-app: app-iotshow
+    spec:
+      terminationGracePeriodSeconds: 60
+      #volumes:
+      #- name: logs
+      #  persistentVolumeClaim:
+      #    claimName: pvc-log-iotshow
+      containers:
+      - name: app-iotshow
+        image: jdnw.com:5000/app/iotshow:latest
+        ports:
+        - containerPort: 8080
+        #volumeMounts:
+        #- name: logs
+        #  mountPath: "/log"
+        env:
+        - name: ETCD_URI
+          value: "http://etcdservice:2379"
+        - name: SERVICEENGINE_URL
+          value: "http://aep-serviceengine:8081/aep/com"
+
