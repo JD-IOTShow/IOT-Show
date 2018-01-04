@@ -1,6 +1,7 @@
 spring:
   thymeleaf:
     mode: HTML5
+    cache: false
   http:
     encoding:
       charset: utf-8
@@ -30,4 +31,4 @@ wss:
     port: 8001
 iotshow:
   appkey: 1715vK65u6d3aQ8
-  appid:  122
+  appid:  2

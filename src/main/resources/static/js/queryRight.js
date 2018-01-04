@@ -110,7 +110,7 @@ function createActivityBar() {
             "barGap": '-100%', // Make series be overlap
             "data": []
         }, {
-            "name": "应用使用率",
+            "name": "今日能力调用量",
             "show": false,
             "type": "bar",
             "data": [],
@@ -247,7 +247,7 @@ function createCallTrendLine() {
             }
         },
         series: [{
-            name: '能力调用量每日趋势',
+            name: '能力调用量',
             type: 'line',
             smooth: true,
             symbolSize: 8 * winTimes,

@@ -1,9 +1,13 @@
 var timer_array_transport_map = [];
 var timer_array_heat_map = [];
-var heatMapResult;
-var transportMapResult;
+var heatMapResult ="{\"result\":{\"object\":[{\"cityName\":\"广州市\",\"coordinate\":[113.341527,23.127041],\"deviceCount\": \"0\"}]}}";
+var transportMapResult = "{\"result\":{\"object\":[[{\"cityName\":\"广州市\",\"coordinate\":[113.341527,23.127041],\"deviceCount\":\"0\"},{\"cityName\":\"广州\",\"coordinate\":[113.341527, 23.127041],\"deviceCount\":\"0\"}]]}}";
 $(function() {
     //生成两个地图
+    var init = $.parseJSON(heatMapResult).result.object;
+    changeMap(init);
+    $('.rmodynamic').addClass('active');
+    $('.transmission').removeClass('active');
     handleHeatMap();
     $('.tab-header').delegate('a', 'click', function() {
         //$(this).addClass('active').siblings().removeClass('active');
@@ -328,10 +332,10 @@ mapChart.on('click', function(params) {
                         emphasis: {
                             areaColor: '#061c2f'
                         }
-                    },
-                    left: 0,
-                    right: 0,
-                    layoutCenter: ['100%', '100%'],
+                    }
+                    // left: 0,
+                    // right: 0,
+                    // layoutCenter: ['100%', '100%'],
                     // 如果宽高比大于 1 则宽度为 100，如果小于 1 则高度为 100，保证了不超过 100x100 的区域
                 },
                 series: [
@@ -441,8 +445,12 @@ function changeTransMap(dataArray) {
     function formtVData() {
         var tGeoDt = [];
         var keyValue = {};
+        var gz_deviceCount;
         for(var i=0; i<dataArray.length; i++){
-            keyValue[dataArray[i][1].cityName] = dataArray[i][1].coordinate;
+            if(dataArray[i][0].cityName=="广州市"){
+                gz_deviceCount = dataArray[i][0].deviceCount;
+            }
+            keyValue[dataArray[i][1].cityName] = dataArray[i][1].coordinate.concat(gz_deviceCount);
         }
         for (var key in keyValue){
             tGeoDt.push({
@@ -473,9 +481,31 @@ function changeTransMap(dataArray) {
                         + '<div style="border-bottom: 1px solid rgba(255,255,255,.3); '
                         + 'font-size: 14px;padding-bottom: 7px;margin-bottom: 7px"></div>'
                         + '数据量：<font style="color:#fe9601">' + params.data.value[2] + '</font>';
+                }else if (params.componentSubType=='effectScatter') {
+                    return params.data.name
+                        + '<div style="border-bottom: 1px solid rgba(255,255,255,.3); '
+                        + 'font-size: 14px;padding-bottom: 7px;margin-bottom: 7px"></div>'
+                        + '数据量：<font style="color:#fe9601">' + params.data.value[2] + '</font>';
                 }
             },
         },
+        // visualMap: {
+        //     min: 0,
+        //     max: 100000,
+        //     calculable: true,
+        //     inRange: {
+        //         color: ['#0993ce', '#6d6f9f', '#eb355e'],
+        //         symbolSize: [5, 15]
+        //     },
+        //     controller: {
+        //         inRange: {
+        //             symbolSize: [10, 10]
+        //         }
+        //     },
+        //     textStyle: {
+        //         color: '#fff'
+        //     }
+        // },
         geo: {
             map: 'china',
             label: {
@@ -527,16 +557,19 @@ function changeTransMap(dataArray) {
             symbolSize: function(val) {
                 var size = 1;
                 if(val[2]<100){
-                    size = 5;
+                    size = 3;
                 }else if(val[2]>100 && val[2]<=1000){
-                    size = 10;
+                    size = 6;
                 }else if(val[2]>1000 && val[2]<=10000){
-                    size = 15;
+                    size = 9;
                 }else if(val[2]>10000){
-                    size = 20;
+                    size = 12;
                 }
                 return size;
             },
+            //     symbolSize: function(val) {
+            //         return val[2] / 5000;
+            //     },
             // label: {
             //     normal: {
             //         formatter: '{b}',
@@ -549,7 +582,7 @@ function changeTransMap(dataArray) {
             // },
             itemStyle: {
                 normal: {
-                    color: '#eb355e'
+                    color: '#823876'
                 }
             }
         }, {
@@ -563,7 +596,7 @@ function changeTransMap(dataArray) {
                 scale: 2.5,
                 brushType: 'stroke'
             },
-            data: formtVData(),
+            data: formtVData().slice(0, 1),
             //小圆点大小
             symbolSize: function(val) {
                 return val[2] / 1000;
