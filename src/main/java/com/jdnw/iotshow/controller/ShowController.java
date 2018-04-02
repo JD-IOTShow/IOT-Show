@@ -343,7 +343,7 @@ public class ShowController {
                             + "," + jsonArray.getJSONObject(i).getString("LATITUDE") + "]"
                             + ",\"deviceCount\":" + "\"" + jsonArray.getJSONObject(i).getString("SGNL_CNT") + "\""
                             + "},"
-                            + "{\"cityName\":" + "\"" + "广州" + "\""
+                            + "{\"cityName\":" + "\"" + "广州市" + "\""
                             + ",\"coordinate\":" + "" + "[113.341527, 23.127041]" + ""
                             + ",\"deviceCount\":" + "\"" + "1" + "\""
                             + "}"
